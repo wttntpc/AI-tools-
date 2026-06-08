@@ -20,6 +20,7 @@ description: 通用 AI 工具連接懶人包 — 適用 Claude Code、AntiGravit
 | 07 | `07-google-calendar` | 連接 Google Calendar |
 | 08 | `08-gmail` | 連接 Gmail |
 | 09 | `09-google-drive` | 連接 Google Drive |
+| 10 | `10-zotero` | 連接 Zotero 文獻庫 |
 | 00 | `00-install-all` | 一次安裝全部 |
 
 ## 步驟二：讓使用者選擇

@@ -24,6 +24,7 @@
 | Google Calendar | 讓 AI 讀取、建立、修改行事曆事件（選用） |
 | Gmail | 讓 AI 讀取、搜尋、起草郵件（選用） |
 | Google Drive | 讓 AI 讀取雲端 PDF、Docs、Sheets（選用） |
+| Zotero | 讓 AI 直接查詢、引用你的文獻庫（選用） |
 
 ---
 
@@ -63,6 +64,7 @@
 
 | 日期 | 版本 | 內容 |
 |------|------|------|
+| 2026-06-08 | v1.3 | 新增 Zotero（10），加強 07-09 資安說明 |
 | 2026-06-08 | v1.2 | 新增 Google Calendar、Gmail、Google Drive（07-09） |
 | 2026-06-08 | v1.1 | 新增 Notion 連接，移除付費生圖（04-draw） |
 | 2026-06-08 | v1.0 | 改為通用版，支援 Claude Code、AntiGravity、Codex、OpenCode |
