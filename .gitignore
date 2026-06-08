@@ -1,3 +1,8 @@
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
 # Windows system files
 Thumbs.db
 ehthumbs.db
@@ -21,6 +26,14 @@ gcp-oauth.keys.json
 .google/
 .gmail-mcp/
 
+# Firebase
+.firebaserc
+firebase.json
+.firebase/
+firestore.rules
+storage.rules
+firebase-debug.log
+
 # Zotero
 zotero.env
 zotero_export.*
@@ -43,6 +56,21 @@ notion.env
 *.njsproj
 *.sln
 *.swp
+
+# Python / uv（notebooklm-mcp-cli 依賴）
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.python-version
+
+# Log files（通用）
+*.log
+logs/
+
+# Obsidian（若 vault 誤放在 repo 內）
+.obsidian/
 
 # Node / package managers
 node_modules/
