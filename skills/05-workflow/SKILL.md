@@ -1,6 +1,6 @@
 ---
 name: ai-tools-workflow
-description: 開工/收工/新專案初始化流程 — 適用 Claude Code、AntiGravity、Codex、OpenCode。說「開工」「收工」「初始化專案」時載入。
+description: 開工/收工/新專案初始化流程 — 適用 Claude Code、AntiGravity、Codex、OpenCode、Hermes Agent。說「開工」「收工」「初始化專案」時載入。
 ---
 
 # 開工 / 收工 / 新專案初始化（通用版）
@@ -13,6 +13,7 @@ description: 開工/收工/新專案初始化流程 — 適用 Claude Code、Ant
 | AntiGravity | `ANTIGRAVITY.md` |
 | Codex | `AGENTS.md` |
 | OpenCode | `OPENCODE.md` |
+| Hermes Agent | `.hermes.md` 或 `AGENTS.md` |
 
 ---
 
