@@ -18,6 +18,7 @@
 | NotebookLM | Google 知識管理工具，透過 MCP 讓 AI 直接讀寫筆記本 |
 | GitHub | 版本控制，透過 CLI 管理 repo、push、PR |
 | Gemini API | Google 免費 AI API，不需信用卡 |
+| Notion | 筆記與資料庫，透過官方 MCP 讓 AI 讀寫頁面（選用） |
 | Firebase | 雲端資料庫（選用） |
 | Obsidian | 本地知識庫，透過 MCPVault 連接（選用） |
 
@@ -59,4 +60,5 @@
 
 | 日期 | 版本 | 內容 |
 |------|------|------|
+| 2026-06-08 | v1.1 | 新增 Notion 連接，移除付費生圖（04-draw） |
 | 2026-06-08 | v1.0 | 改為通用版，支援 Claude Code、AntiGravity、Codex、OpenCode |
