@@ -46,7 +46,23 @@ token*.json
    - 名稱：`AI-MCP-Gmail`
 5. 下載 `client_secret_xxx.json`，存到安全位置（建議 `C:\Users\你\.google\`）
 
-### 2. 儲存憑證路徑為環境變數
+### 2. 複製憑證到 Gmail MCP 指定位置
+
+> ⚠️ `@gongrzhe/server-gmail-autoauth-mcp` 需要憑證放在 `~/.gmail-mcp/gcp-oauth.keys.json`，不吃環境變數路徑。
+
+```powershell
+# Windows
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.gmail-mcp"
+Copy-Item "C:\Users\你\.google\client_secret_xxx.json" "$env:USERPROFILE\.gmail-mcp\gcp-oauth.keys.json"
+```
+
+```bash
+# macOS / Linux
+mkdir -p ~/.gmail-mcp
+cp ~/.google/client_secret_xxx.json ~/.gmail-mcp/gcp-oauth.keys.json
+```
+
+### 3. 儲存憑證路徑為環境變數（備用）
 
 ```powershell
 # Windows
@@ -59,7 +75,7 @@ echo 'export GOOGLE_GMAIL_CREDENTIALS="$HOME/.google/client_secret_xxx.json"' >>
 source ~/.bashrc
 ```
 
-### 3. 依 Agent 類型註冊 MCP
+### 4. 依 Agent 類型註冊 MCP
 
 **Claude Code：**
 ```bash
@@ -82,7 +98,7 @@ claude mcp add gmail -e GOOGLE_GMAIL_CREDENTIALS="$GOOGLE_GMAIL_CREDENTIALS" -- 
 }
 ```
 
-### 4. 驗證
+### 5. 驗證
 
 重啟 Agent 後，請 AI：「讀取我最新的 5 封 Gmail 郵件標題」
 
