@@ -21,6 +21,9 @@
 | Notion | 筆記與資料庫，透過官方 MCP 讓 AI 讀寫頁面（選用） |
 | Firebase | 雲端資料庫（選用） |
 | Obsidian | 本地知識庫，透過 MCPVault 連接（選用） |
+| Google Calendar | 讓 AI 讀取、建立、修改行事曆事件（選用） |
+| Gmail | 讓 AI 讀取、搜尋、起草郵件（選用） |
+| Google Drive | 讓 AI 讀取雲端 PDF、Docs、Sheets（選用） |
 
 ---
 
@@ -60,5 +63,6 @@
 
 | 日期 | 版本 | 內容 |
 |------|------|------|
+| 2026-06-08 | v1.2 | 新增 Google Calendar、Gmail、Google Drive（07-09） |
 | 2026-06-08 | v1.1 | 新增 Notion 連接，移除付費生圖（04-draw） |
 | 2026-06-08 | v1.0 | 改為通用版，支援 Claude Code、AntiGravity、Codex、OpenCode |

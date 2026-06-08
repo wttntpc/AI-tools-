@@ -13,6 +13,9 @@ description: 一次安裝所有通用 AI 工具懶人包技能。說「全部安
 4. **04-notion** — 連接 Notion
 5. **05-workflow** — 開工/收工/初始化
 6. **06-firebase** — 連接 Firebase
+7. **07-google-calendar** — 連接 Google Calendar
+8. **08-gmail** — 連接 Gmail
+9. **09-google-drive** — 連接 Google Drive
 
 每完成一個報告進度，最終回報總表。
 已安裝的工具自動跳過。
