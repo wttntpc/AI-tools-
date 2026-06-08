@@ -1,6 +1,6 @@
 # AI 工具連接懶人包（通用版）
 
-適用於 **Claude Code、AntiGravity、Codex（OpenAI）、OpenCode** 等支援 MCP 的 AI Agent。
+適用於 **Claude Code、AntiGravity、Codex（OpenAI）、OpenCode、Hermes Agent** 等支援 MCP 的 AI Agent。
 
 把這行貼給你的 AI Agent，它會列出所有工具讓你**自由選擇**要安裝哪些：
 
