@@ -14,18 +14,24 @@ description: 連接 Gmail MCP — 讓 AI 讀取、搜尋、起草、發送郵件
 
 | 規則 | 說明 |
 |------|------|
-| 憑證不入 repo | `client_secret*.json`、`token*.json` 絕對不 commit |
-| 最小權限 | 建議只授予 `gmail.readonly` + `gmail.send`，不授予 `gmail.modify`（避免 AI 誤刪郵件） |
-| 發信前確認 | AI 起草後必須由你確認，才能真正發送 |
+| 憑證不入 repo | `client_secret*.json`、`credentials.json`、`gcp-oauth.keys.json` 絕對不 commit |
+| 權限說明 | `@gongrzhe/server-gmail-autoauth-mcp` 實際授予 `gmail.modify`，可讀取、撰寫、封存郵件，**但不能永久刪除** |
+| 發信前確認 | **AI 絕對不可在未經你確認的情況下發送郵件**，起草後必須由你審閱 |
+| 禁止自動操作 | AI 不得自動封存、標記、移動郵件，所有操作須先告知並取得確認 |
 | 環境變數 | 憑證路徑存入系統環境變數，不寫進 Markdown |
 | 定期檢查 | 每季到 https://myaccount.google.com/permissions 確認授權應用程式 |
-| 撤銷方式 | 如懷疑洩漏，立即到 Google Cloud Console 刪除 OAuth client |
+| 撤銷方式 | 如懷疑洩漏，立即到 https://myaccount.google.com/permissions 撤銷「AI-MCP」授權 |
 
-`.gitignore` 請加入：
+> ⚠️ **已知限制**：此套件要求 `gmail.modify` 權限（比 `gmail.readonly` 更寬）。
+> 這表示 AI 技術上可以封存或標記郵件，但**本懶人包的規則禁止 AI 在未確認前執行任何修改操作**。
+
+`.gitignore` 請確認已加入：
 ```
 client_secret*.json
 token*.json
 *.credentials.json
+gcp-oauth.keys.json
+.gmail-mcp/
 ```
 
 ---
@@ -114,5 +120,16 @@ claude mcp add gmail -e GOOGLE_GMAIL_CREDENTIALS="$GOOGLE_GMAIL_CREDENTIALS" -- 
 | 搜尋郵件 | 「找出所有來自 xxx@gmail.com 的郵件」 |
 | 整理未讀 | 「列出所有未讀郵件並摘要重點」 |
 | 起草回覆 | 「幫我起草一封回覆，語氣正式，說明下週無法出席」 |
+| 確認後發送 | 「（看完草稿後）確認無誤，請發送」 |
 
-⚠️ AI 起草郵件後，請你仔細確認內容再發送。AI 不應在未確認的情況下自動寄出郵件。
+---
+
+## AI 操作守則（強制）
+
+以下規則適用於所有 AI Agent 使用 Gmail MCP 時：
+
+1. **發信前必須確認**：AI 起草郵件後，必須完整顯示草稿內容，等待使用者明確說「確認發送」才能執行發送
+2. **禁止自動修改**：不得自動封存、標記已讀、移動、或變更任何郵件狀態
+3. **禁止批次操作**：不得一次對多封郵件執行任何修改操作
+4. **讀取後不留副作用**：讀取郵件後不得改變其已讀/未讀狀態
+5. **敏感內容保護**：不得將郵件內容摘要寫入任何 repo 或公開檔案
