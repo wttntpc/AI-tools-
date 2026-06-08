@@ -13,10 +13,10 @@ description: 通用 AI 工具連接懶人包 — 適用 Claude Code、AntiGravit
 |------|-----------|------|
 | 01 | `01-notebooklm` | 連接 NotebookLM MCP |
 | 02 | `02-github` | 連接 GitHub CLI |
-| 03 | `03-firebase` | 連接 Firebase MCP |
+| 03 | `03-obsidian` | 連接 Obsidian MCP (MCPVault) |
 | 04 | `04-notion` | 連接 Notion MCP |
 | 05 | `05-workflow` | 開工 / 收工 / 新專案初始化 |
-| 06 | `06-obsidian` | 連接 Obsidian MCP (MCPVault) |
+| 06 | `06-firebase` | 連接 Firebase MCP |
 | 00 | `00-install-all` | 一次安裝全部 |
 
 ## 步驟二：讓使用者選擇

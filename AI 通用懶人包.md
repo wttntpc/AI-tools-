@@ -148,29 +148,29 @@ Invoke-RestMethod -Uri "https://generativelanguage.googleapis.com/v1beta/models/
 
 ---
 
-## Step 5：連接 Firebase（選用）
+## Step 5：連接 Obsidian（選用）
+
+### 安裝 MCPVault
 
 ```powershell
-# Windows 使用 npx.cmd 避免執行原則問題
-npx.cmd -y firebase-tools@latest --version
-npx.cmd -y firebase-tools@latest login
-npx.cmd -y firebase-tools@latest projects:list
+npm.cmd install -g @bitbonsai/mcpvault
+where.exe mcpvault
 ```
 
 ### 依 Agent 類型註冊 MCP
 
 **Claude Code：**
 ```bash
-claude mcp add firebase -- npx -y firebase-tools@latest mcp
+claude mcp add obsidian -- mcpvault "C:\你的\vault\路徑"
 ```
 
 **AntiGravity / Codex / OpenCode（opencode.json）：**
 ```json
 {
   "mcp": {
-    "firebase": {
+    "obsidian": {
       "type": "local",
-      "command": ["npx.cmd", "-y", "firebase-tools@latest", "mcp"],
+      "command": ["mcpvault", "C:\\你的\\vault\\路徑"],
       "enabled": true
     }
   }
@@ -217,7 +217,6 @@ claude mcp add notion -- npx -y @notionhq/notion-mcp-server
       "type": "local",
       "command": ["npx", "-y", "@notionhq/notion-mcp-server"],
       "env": {
-        "OPENAI_API_KEY": "",
         "NOTION_API_KEY": "${NOTION_API_KEY}"
       },
       "enabled": true
@@ -231,29 +230,29 @@ claude mcp add notion -- npx -y @notionhq/notion-mcp-server
 
 ---
 
-## Step 7：連接 Obsidian（選用）
-
-### 安裝 MCPVault
+## Step 7：連接 Firebase（選用）
 
 ```powershell
-npm.cmd install -g @bitbonsai/mcpvault
-where.exe mcpvault
+# Windows 使用 npx.cmd 避免執行原則問題
+npx.cmd -y firebase-tools@latest --version
+npx.cmd -y firebase-tools@latest login
+npx.cmd -y firebase-tools@latest projects:list
 ```
 
 ### 依 Agent 類型註冊 MCP
 
 **Claude Code：**
 ```bash
-claude mcp add obsidian -- mcpvault "C:\你的\vault\路徑"
+claude mcp add firebase -- npx -y firebase-tools@latest mcp
 ```
 
 **AntiGravity / Codex / OpenCode（opencode.json）：**
 ```json
 {
   "mcp": {
-    "obsidian": {
+    "firebase": {
       "type": "local",
-      "command": ["mcpvault", "C:\\你的\\vault\\路徑"],
+      "command": ["npx.cmd", "-y", "firebase-tools@latest", "mcp"],
       "enabled": true
     }
   }
@@ -307,7 +306,7 @@ GitHub repo：
 
 ---
 
-## Step 9：開工 / 收工流程
+## Step 9：開工 / 收工 / 新專案初始化
 
 ### 開工（對任何 Agent 說「開工」）
 
