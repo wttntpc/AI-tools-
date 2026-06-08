@@ -1,4 +1,4 @@
-# 通用 AI 工具連接懶人包 v1.1
+# 通用 AI 工具連接懶人包 v1.2
 
 > 適用：Claude Code、AntiGravity、Codex（OpenAI）、OpenCode
 > 更新日期：2026-06-08
@@ -261,7 +261,90 @@ claude mcp add firebase -- npx -y firebase-tools@latest mcp
 
 ---
 
-## Step 8：建立 Agent 規則檔
+## Step 8：連接 Google Calendar（選用）
+
+> ⚠️ 資安：憑證不入 repo，只授予 `calendar.readonly` 權限，AI 無法刪除事件。
+
+1. 前往 https://console.cloud.google.com → 建立或選擇專案（例如 `AI-MCP`）
+2. **APIs & Services → Library** → 啟用 `Google Calendar API`
+3. **OAuth consent screen** → External → 填入 App name 和 Email → Scopes 只加 `calendar.readonly`
+4. **Credentials → Create Credentials → OAuth client ID** → Desktop app → 下載 `client_secret_xxx.json`，存到 `C:\Users\你\.google\`
+
+```powershell
+# Windows
+setx GOOGLE_CALENDAR_CREDENTIALS "C:\Users\你\.google\client_secret_xxx.json"
+```
+
+**Claude Code：**
+```bash
+claude mcp add google-calendar -e GOOGLE_CALENDAR_CREDENTIALS="$GOOGLE_CALENDAR_CREDENTIALS" -- npx -y @gongrzhe/server-google-calendar-mcp
+```
+
+`.gitignore` 加入：`client_secret*.json`、`token*.json`
+
+---
+
+## Step 9：連接 Gmail（選用）
+
+> ⚠️ 資安：只授予 `gmail.readonly` + `gmail.send`，不授予 `gmail.modify`。AI 起草郵件後需你確認才能發送。
+
+1. 前往 https://console.cloud.google.com → 同上專案
+2. **APIs & Services → Library** → 啟用 `Gmail API`
+3. **OAuth consent screen** → Scopes 只加 `gmail.readonly` 和 `gmail.send`
+4. **Credentials → Create Credentials → OAuth client ID** → Desktop app → 下載憑證，存到 `C:\Users\你\.google\`
+
+```powershell
+# Windows
+setx GOOGLE_GMAIL_CREDENTIALS "C:\Users\你\.google\client_secret_xxx.json"
+```
+
+**Claude Code：**
+```bash
+claude mcp add gmail -e GOOGLE_GMAIL_CREDENTIALS="$GOOGLE_GMAIL_CREDENTIALS" -- npx -y @gongrzhe/server-gmail-autoauth-mcp
+```
+
+---
+
+## Step 10：連接 Google Drive（選用）
+
+> ⚠️ 資安：只授予 `drive.readonly`，AI 只能讀取不能修改或刪除檔案。
+
+1. 前往 https://console.cloud.google.com → 同上專案
+2. **APIs & Services → Library** → 啟用 `Google Drive API`
+3. **OAuth consent screen** → Scopes 只加 `drive.readonly`
+4. **Credentials → Create Credentials → OAuth client ID** → Desktop app → 下載憑證
+
+```powershell
+# Windows
+setx GOOGLE_DRIVE_CREDENTIALS "C:\Users\你\.google\client_secret_xxx.json"
+```
+
+**Claude Code：**
+```bash
+claude mcp add google-drive -e GOOGLE_DRIVE_CREDENTIALS="$GOOGLE_DRIVE_CREDENTIALS" -- npx -y @googleapis/mcp
+```
+
+---
+
+## Step 11：連接 Zotero（選用）
+
+> 使用本機 API（localhost:23119），不需要 API Key，資料完全不離開本機。
+> ⚠️ 已知問題：`zotero-mcp` npm 套件與 Zotero 7.x 不相容，改用直接 API 呼叫。
+
+1. 開啟 Zotero → `Edit` → `Preferences` → **進階**
+2. 勾選「**允許此電腦上的其他應用程式與 Zotero 通訊**」
+3. 畫面顯示 `Available at http://localhost:23119/api/` 即成功
+
+AI 驗證：
+```powershell
+curl -s "http://localhost:23119/api/users/0/items?itemType=journalArticle&limit=3"
+```
+
+成功回傳論文清單即完成 ✅
+
+---
+
+## Step 12：建立 Agent 規則檔
 
 根據偵測到的 Agent，在專案根目錄建立對應規則檔：
 
@@ -306,7 +389,7 @@ GitHub repo：
 
 ---
 
-## Step 9：開工 / 收工 / 新專案初始化
+## Step 13：開工 / 收工 / 新專案初始化
 
 ### 開工（對任何 Agent 說「開工」）
 
@@ -371,5 +454,6 @@ Agent 類型：Claude Code / AntiGravity / Codex / OpenCode
 
 | 日期 | 版本 | 內容 |
 |------|------|------|
+| 2026-06-08 | v1.2 | 新增 Google Calendar（Step 8）、Gmail（Step 9）、Google Drive（Step 10）、Zotero（Step 11），步驟重新編號 |
 | 2026-06-08 | v1.1 | 新增 Notion MCP 連接（Step 6），移除付費生圖步驟，步驟重新編號 |
 | 2026-06-08 | v1.0 | 初版：整合 Claude Code、AntiGravity、Codex、OpenCode 通用流程 |
