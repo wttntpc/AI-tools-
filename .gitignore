@@ -13,6 +13,28 @@ credentials.*
 secrets.*
 service-account*.json
 
+# Google OAuth 憑證（Calendar / Gmail / Google Drive）
+client_secret*.json
+token*.json
+*.credentials.json
+gcp-oauth.keys.json
+.google/
+.gmail-mcp/
+
+# Zotero
+zotero.env
+zotero_export.*
+
+# GitHub token
+.github-token
+gh-token*
+
+# API Keys
+*.apikey
+api_keys.*
+gemini.env
+notion.env
+
 # IDEs and editors
 .vscode/
 .idea/
