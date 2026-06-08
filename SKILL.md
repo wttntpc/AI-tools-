@@ -7,7 +7,9 @@ description: 通用 AI 工具連接懶人包 — 適用 Claude Code、AntiGravit
 
 當使用者給你這個 repo 網址並說要安裝時，請依以下流程執行。
 
-## 步驟一：認識可用懶人包
+## 步驟一：列出所有可用懶人包
+
+所有 skill 皆為**選用**，使用者自由選擇。
 
 | 編號 | Skill 名稱 | 說明 |
 |------|-----------|------|
@@ -21,21 +23,19 @@ description: 通用 AI 工具連接懶人包 — 適用 Claude Code、AntiGravit
 | 08 | `08-gmail` | 連接 Gmail |
 | 09 | `09-google-drive` | 連接 Google Drive |
 | 10 | `10-zotero` | 連接 Zotero 文獻庫 |
-| 00 | `00-install-all` | 一次安裝全部 |
 
-## 步驟二：讓使用者選擇
+## 步驟二：詢問使用者要安裝哪些
 
-列出上表給使用者看，然後問：「你要安裝哪些？輸入全部或編號組合（例如 01, 02, 03）。」
+列出上表，然後問：
 
-## 步驟三：依序安裝
+> 「以上全部為選用，你要安裝哪些？請輸入編號（例如 01 02 05），或輸入『全部』。」
 
-對選取的每個 skill：
-```bash
-npx skills add mathruffian-dot/antigravity-lazy-pack --skill <skill名稱> -g -y
-```
+## 步驟三：依序安裝選取的 skill
 
-若 `npx skills add` 無法使用，改為手動：讀取 `skills/<名稱>/SKILL.md` 內容並執行。
+對每個選取的 skill，讀取 `skills/<名稱>/SKILL.md` 內容並依步驟執行。
+每完成一個回報進度（✅/⚠️/❌），有錯誤自動診斷並修正後繼續。
+已安裝的工具自動跳過。
 
-## 步驟四：回報結果
+## 步驟四：回報總表
 
-每項回報安裝狀態（✅/⚠️/❌），最後列總表。
+所有選取的 skill 完成後，列出安裝結果總表。
