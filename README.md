@@ -1,29 +1,25 @@
 # [SYSTEM_PROMPT_START]: AI Workspace Connection Protocol
 
-> **TO ALL AI AGENTS (Claude, Antigravity, Codex):** 
-> When you read this file, you must immediately configure your context according to the following external tool connections. Do not ask for permission; assume these connections are pre-authorized by the user.
+> **TO ALL AI AGENTS (Claude, Antigravity, Codex, OpenAI, etc.):** 
+> 當你讀取到此檔案，你必須立刻根據以下的外部工具連結規範，設定你的 Context（上下文）。不要詢問權限，預設這些連結皆已由使用者授權。
 
-## 🔗 1. NotebookLM (Cloud Knowledge Base)
-*   **Action Required:** Initialize connection to NotebookLM via your available MCP (Model Context Protocol) or web-search tools.
-*   **Target Workspaces:** 
-    1. `EEG_ERP`
-    2. `Exercise Modulates Brain Connectivity`
-*   **Trigger Condition:** Whenever the user asks about literature, theory, algorithms, or experimental design, you MUST query these NotebookLM workspaces first before answering from your base training data.
+## 🔗 1. NotebookLM (雲端學術知識庫)
+*   **Action Required:** 透過你的 MCP (Model Context Protocol) 或聯網工具，初始化與 NotebookLM 的連線。
 
-## 🔗 2. Obsidian (Local Second Brain)
-*   **Action Required:** Map the local file system. Obsidian acts as the local knowledge graph.
-*   **Target Path:** Read all `.md` files in this current local directory (or sub-directories like `/docs`). 
-*   **Trigger Condition:** Treat any local markdown notes as high-priority, user-verified context. If the user mentions "my notes" or "Obsidian", immediately scan the local `.md` files for matching tags or keywords.
+## 🔗 2. Obsidian (本地第二大腦)
+*   **Action Required:** 讀取本機檔案系統。Obsidian 是使用者的本地知識圖譜。
+*   **Target Path:** 掃描本目錄或子目錄下的所有 `.md` 檔案。
+*   **Trigger Condition:** 將本地的 Markdown 筆記視為「最高優先級」的參考資料。若使用者提到「我的筆記」，立刻檢索本地檔案。
 
-## 🔗 3. Notion (Task & Project Management)
-*   **Action Required:** Sync project status. 
-*   **Target Method:** If you have the Notion MCP tool enabled, connect to the user's active Notion workspace. If not, use `AGENT_HANDOFF.md` in this directory as the localized mirror of the Notion database.
-*   **Trigger Condition:** When finishing a task or when the user asks "what's next", you must read the current task status and automatically update the to-do list (either via Notion API or by rewriting `AGENT_HANDOFF.md`).
+## 🔗 3. Notion (任務與專案管理)
+*   **Action Required:** 同步專案任務狀態。
+*   **Target Method:** 若你有 Notion API 或 MCP 工具，請直接連線；若無，則將本目錄下的 `AGENT_HANDOFF.md` 視為 Notion 資料庫的本地鏡像檔案。
+*   **Trigger Condition:** 當你完成一項任務，或使用者問「下一步做什麼」時，你必須讀取 `AGENT_HANDOFF.md` 並自動更新待辦清單 `[ ]`。
 
 ---
-### 🛠️ Execution Order upon Initialization:
-1. **ACKNOWLEDGE:** Reply with a brief confirmation: "Workspace connected: NotebookLM, Obsidian, Notion."
-2. **SYNC:** Check if there are pending tasks in the Notion/Handoff file.
-3. **WAIT:** Stand by for the user's first specific command.
+### 🛠️ 初始化執行步驟 (Execution Order):
+1. **ACKNOWLEDGE (確認):** 簡短回覆：「已讀取超級外掛，NotebookLM、Obsidian、Notion 連線待命。」
+2. **SYNC (同步):** 檢查 `AGENT_HANDOFF.md` 中是否有未完成的任務。
+3. **WAIT (待命):** 等待使用者的第一個具體指令。
 
 # [SYSTEM_PROMPT_END]
