@@ -1,40 +1,62 @@
-# AI tools connect 懶人包
+# AI 工具連接懶人包（通用版）
 
-這個 repo 放置使用者可公開套用的懶人包文件，不放個人 NotebookLM 清單、研究產物、生成圖片、測試專案或任何帳號資料。
+適用於 **Claude Code、AntiGravity、Codex（OpenAI）、OpenCode** 等支援 MCP 的 AI Agent。
 
-## 目前檔案
-
-- `09-AntiGravity專屬懶人包.md`：主懶人包，整理 NotebookLM、Firebase、GitHub 與開工 / 收工 / 新專案初始化流程；Obsidian 只保留為人工專案筆記，不再安裝 MCPVault。
-- `.gitignore`：排除本機設定、NotebookLM 匯出、生成圖片、測試 app、API key 與暫存資料。
-
-## 使用方式
-
-### 方式一：直接叫 AI 幫你裝（最簡單）
-
-把這行貼給你的 AI agent：
+把這行貼給你的 AI Agent，它就會自動引導你完成所有設定：
 
 ```
-這是 AntiGravity 懶人包 https://github.com/mathruffian-dot/antigravity-lazy-pack
-請讀取 repo 內容，列出所有可用的懶人包，問我要裝哪些。
+這是 AI 工具連接懶人包 https://github.com/wttntpc/AI-tools-
+請讀取 10-通用懶人包.md，依步驟引導我完成設定。
 ```
 
-AI 會自動讀取 `SKILL.md`（安裝入口），列出 6 個技能，問你要裝哪些，然後自動安裝。
+---
 
-### 方式二：手動開啟 MD 檔
+## 可以連接哪些工具？
 
-1. 開啟 `09-AntiGravity專屬懶人包.md`
-2. 把文件內容交給 Anti-Gravity 或 AI 編碼助理
-3. 依序完成環境檢查、OAuth 登入、NotebookLM / Firebase MCP 設定與工作流程設定
+| 工具 | 說明 |
+|------|------|
+| NotebookLM | Google 知識管理工具，透過 MCP 讓 AI 直接讀寫筆記本 |
+| GitHub | 版本控制，透過 CLI 管理 repo、push、PR |
+| Gemini API | Google 免費 AI API，不需信用卡 |
+| Firebase | 雲端資料庫（選用） |
+| Obsidian | 本地知識庫，透過 MCPVault 連接（選用） |
+
+---
+
+## 支援的 AI Agent
+
+| Agent | 規則檔 | MCP 設定 |
+|-------|--------|---------|
+| Claude Code | `CLAUDE.md` | `claude mcp add` |
+| AntiGravity | `ANTIGRAVITY.md` | `opencode.json` |
+| Codex (OpenAI) | `AGENTS.md` | `opencode.json` |
+| OpenCode | `OPENCODE.md` | `opencode.json` |
+
+懶人包會自動偵測你使用的 Agent，套用對應的設定方式。
+
+---
+
+## 檔案說明
+
+| 檔案 | 說明 |
+|------|------|
+| `10-通用懶人包.md` | 主要懶人包，包含完整安裝流程（Step 0–8） |
+| `SKILL.md` | AI Agent 自動讀取的安裝入口 |
+| `.gitignore` | 排除 API key、token、個人資料等敏感檔案 |
+
+---
 
 ## 安全原則
 
-- NotebookLM 登入走瀏覽器 OAuth；不要複製 cookie、token 或私有匯出檔。
-- 不把 `notebooks.json`、NotebookLM 筆記本 ID 清單、研究報告、生成圖片放進公開 repo。
-- 不把 API key、GitHub token、Firebase Admin 憑證寫進 Markdown 或 GitHub。
-- 收工時先檢查 diff，只提交本次相關檔案，不使用無差別 `git add .`。
+- 所有登入走瀏覽器 OAuth，不複製 cookie 或 token
+- API key 存入系統環境變數，不寫進 repo
+- 不 commit 個人 NotebookLM 清單、筆記本 ID、研究報告
+- 收工前先檢查 diff，只提交本次相關檔案
 
-## 相關系列
+---
 
-- Codex 懶人包：https://github.com/mathruffian-dot/codex-lazy-packs
-- Claude Code 懶人包：https://github.com/mathruffian-dot/claude-code-lazy-packs
-- OpenCode 懶人包：https://github.com/mathruffian-dot/opencode-lazy-packs
+## 更新紀錄
+
+| 日期 | 版本 | 內容 |
+|------|------|------|
+| 2026-06-08 | v1.0 | 改為通用版，支援 Claude Code、AntiGravity、Codex、OpenCode |
