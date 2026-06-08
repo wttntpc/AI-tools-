@@ -1,14 +1,16 @@
-# 通用 AI 工具連接懶人包 v1.2
+# 通用 AI 工具連接懶人包 v1.3
 
 > 適用：Claude Code、AntiGravity、Codex（OpenAI）、OpenCode
 > 更新日期：2026-06-08
 > 語系偏好：繁體中文（Taiwan）
 
-這份懶人包讓任何支援 MCP 或工具呼叫的 AI Agent，都能用同一份流程完成 NotebookLM、GitHub、Gemini、Notion、Firebase、Obsidian 的連接與開工收工工作流程設定。
+這份懶人包讓任何支援 MCP 或工具呼叫的 AI Agent，都能用同一份流程完成 NotebookLM、GitHub、Gemini、Obsidian、Notion、Firebase、Google Calendar、Gmail、Google Drive、Zotero 的連接與開工收工工作流程設定。
 
 ---
 
-## Step 0：偵測 AI Agent 類型
+## Step 0：偵測 AI Agent 類型 + 環境檢查
+
+### 偵測 Agent 類型
 
 AI 請先自動判斷目前的執行環境，並告知使用者：
 
@@ -21,9 +23,7 @@ AI 請先自動判斷目前的執行環境，並告知使用者：
 
 > 如果無法自動偵測，請問使用者：「你現在用的是哪個 AI Agent？」
 
----
-
-## Step 1：環境檢查
+### 環境檢查
 
 不管哪個 Agent，都先執行以下檢查：
 
@@ -58,7 +58,7 @@ npm --version
 
 ---
 
-## Step 2：連接 NotebookLM（所有 Agent 通用）
+## Step 1：連接 NotebookLM（所有 Agent 通用）
 
 ### 安裝 MCP CLI
 
@@ -100,7 +100,7 @@ claude mcp add notebooklm -- nlm mcp
 
 ---
 
-## Step 3：連接 GitHub（所有 Agent 通用）
+## Step 2：連接 GitHub（所有 Agent 通用）
 
 ```powershell
 gh auth status
@@ -121,7 +121,7 @@ git config --global user.email
 
 ---
 
-## Step 4：設定 Gemini 免費 API（所有 Agent 通用）
+## Step 3：設定 Gemini 免費 API（所有 Agent 通用）
 
 1. 前往 https://aistudio.google.com/apikey 取得免費 API Key（不需信用卡）
 2. 儲存為環境變數：
@@ -148,7 +148,7 @@ Invoke-RestMethod -Uri "https://generativelanguage.googleapis.com/v1beta/models/
 
 ---
 
-## Step 5：連接 Obsidian（選用）
+## Step 4：連接 Obsidian（選用）
 
 ### 安裝 MCPVault
 
@@ -179,7 +179,7 @@ claude mcp add obsidian -- mcpvault "C:\你的\vault\路徑"
 
 ---
 
-## Step 6：連接 Notion（選用）
+## Step 5：連接 Notion（選用）
 
 ### 事前準備
 
@@ -230,7 +230,7 @@ claude mcp add notion -- npx -y @notionhq/notion-mcp-server
 
 ---
 
-## Step 7：連接 Firebase（選用）
+## Step 6：連接 Firebase（選用）
 
 ```powershell
 # Windows 使用 npx.cmd 避免執行原則問題
@@ -261,7 +261,7 @@ claude mcp add firebase -- npx -y firebase-tools@latest mcp
 
 ---
 
-## Step 8：連接 Google Calendar（選用）
+## Step 7：連接 Google Calendar（選用）
 
 > ⚠️ 資安：憑證不入 repo，只授予 `calendar.readonly` 權限，AI 無法刪除事件。
 
@@ -284,14 +284,21 @@ claude mcp add google-calendar -e GOOGLE_CALENDAR_CREDENTIALS="$GOOGLE_CALENDAR_
 
 ---
 
-## Step 9：連接 Gmail（選用）
+## Step 8：連接 Gmail（選用）
 
-> ⚠️ 資安：只授予 `gmail.readonly` + `gmail.send`，不授予 `gmail.modify`。AI 起草郵件後需你確認才能發送。
+> ⚠️ 資安：`@gongrzhe/server-gmail-autoauth-mcp` 實際授予 `gmail.modify` 權限（可讀取、撰寫、封存，但不能永久刪除）。
+> AI 起草郵件後必須由你確認才能發送，詳見 `skills/08-gmail/SKILL.md`。
 
 1. 前往 https://console.cloud.google.com → 同上專案
 2. **APIs & Services → Library** → 啟用 `Gmail API`
-3. **OAuth consent screen** → Scopes 只加 `gmail.readonly` 和 `gmail.send`
+3. **OAuth consent screen** → External → 填入 App name、Email、Test users（加入你的 Gmail）
 4. **Credentials → Create Credentials → OAuth client ID** → Desktop app → 下載憑證，存到 `C:\Users\你\.google\`
+
+```powershell
+# 複製憑證到 Gmail MCP 指定位置
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.gmail-mcp"
+Copy-Item "C:\Users\你\.google\client_secret_xxx.json" "$env:USERPROFILE\.gmail-mcp\gcp-oauth.keys.json"
+```
 
 ```powershell
 # Windows
@@ -305,7 +312,7 @@ claude mcp add gmail -e GOOGLE_GMAIL_CREDENTIALS="$GOOGLE_GMAIL_CREDENTIALS" -- 
 
 ---
 
-## Step 10：連接 Google Drive（選用）
+## Step 9：連接 Google Drive（選用）
 
 > ⚠️ 資安：只授予 `drive.readonly`，AI 只能讀取不能修改或刪除檔案。
 
@@ -326,7 +333,7 @@ claude mcp add google-drive -e GOOGLE_DRIVE_CREDENTIALS="$GOOGLE_DRIVE_CREDENTIA
 
 ---
 
-## Step 11：連接 Zotero（選用）
+## Step 10：連接 Zotero（選用）
 
 > 使用本機 API（localhost:23119），不需要 API Key，資料完全不離開本機。
 > ⚠️ 已知問題：`zotero-mcp` npm 套件與 Zotero 7.x 不相容，改用直接 API 呼叫。
@@ -344,7 +351,7 @@ curl -s "http://localhost:23119/api/users/0/items?itemType=journalArticle&limit=
 
 ---
 
-## Step 12：建立 Agent 規則檔
+## 附錄 A：建立 Agent 規則檔
 
 根據偵測到的 Agent，在專案根目錄建立對應規則檔：
 
@@ -373,6 +380,10 @@ GitHub repo：
 - Notion：已連接 / 未使用
 - Firebase：已連接 / 未使用
 - Obsidian vault：已連接 / 未使用
+- Google Calendar：已連接 / 未使用
+- Gmail：已連接 / 未使用
+- Google Drive：已連接 / 未使用
+- Zotero：已連接 / 未使用
 
 ## 工作規則
 - 回應使用繁體中文
@@ -385,11 +396,12 @@ GitHub repo：
 - 不 commit API key、token、密碼
 - 不 commit NotebookLM 個人清單或筆記本 ID
 - 不使用無差別 git add .
+- Gmail：發信前必須顯示完整草稿，等待使用者確認才發送
 ```
 
 ---
 
-## Step 13：開工 / 收工 / 新專案初始化
+## 附錄 B：開工 / 收工 / 新專案初始化
 
 ### 開工（對任何 Agent 說「開工」）
 
@@ -426,6 +438,10 @@ Agent 類型：Claude Code / AntiGravity / Codex / OpenCode
 - Notion MCP：✅ 已連接 / ⏭️ 跳過 / ❌ 失敗
 - Firebase MCP：✅ 已連接 / ⏭️ 跳過 / ❌ 失敗
 - Obsidian MCP：✅ 已連接 / ⏭️ 跳過 / ❌ 失敗
+- Google Calendar：✅ 已連接 / ⏭️ 跳過 / ❌ 失敗
+- Gmail：✅ 已連接 / ⏭️ 跳過 / ❌ 失敗
+- Google Drive：✅ 已連接 / ⏭️ 跳過 / ❌ 失敗
+- Zotero：✅ 已連接 / ⏭️ 跳過 / ❌ 失敗
 - 規則檔：✅ 已建立 (CLAUDE.md) / ⚠️ 待建立
 
 下一步：
@@ -447,6 +463,19 @@ Agent 類型：Claude Code / AntiGravity / Codex / OpenCode
 | Notion 連線成功但讀不到頁面 | 在 Notion 頁面右上角 Share → 把 Integration 加入 |
 | Notion token 格式錯誤 | 確認開頭為 `ntn_`，不要包含引號 |
 | Obsidian vault 路徑找不到 | 搜尋含 `.obsidian` 的資料夾 |
+| Gmail OAuth access_denied | 到 Google Cloud Console → OAuth consent screen → 目標對象 → 加入你的 Gmail 為測試使用者 |
+| Gmail MCP 連線失敗 | 確認憑證已複製到 `~/.gmail-mcp/gcp-oauth.keys.json` |
+| Zotero 連線失敗 | 確認 Zotero 桌面程式已開啟，且已勾選本機 API 選項 |
+
+---
+
+## 資安維護（每季執行）
+
+前往 👉 https://myaccount.google.com/permissions
+
+確認「有權存取帳戶的任何 Google 服務」清單中：
+- ✅ 只有你認識的應用程式
+- ❌ 不認識的應用程式 → 立即點擊「刪除連結」撤銷授權
 
 ---
 
@@ -454,6 +483,7 @@ Agent 類型：Claude Code / AntiGravity / Codex / OpenCode
 
 | 日期 | 版本 | 內容 |
 |------|------|------|
+| 2026-06-08 | v1.3 | 步驟重新編號為 Step 0-10，Step 0 合併偵測+環境，規則檔和開工收工改為附錄，修正 Gmail scope 說明，新增資安維護章節 |
 | 2026-06-08 | v1.2 | 新增 Google Calendar（Step 8）、Gmail（Step 9）、Google Drive（Step 10）、Zotero（Step 11），步驟重新編號 |
-| 2026-06-08 | v1.1 | 新增 Notion MCP 連接（Step 6），移除付費生圖步驟，步驟重新編號 |
+| 2026-06-08 | v1.1 | 新增 Notion MCP 連接，移除付費生圖步驟，步驟重新編號 |
 | 2026-06-08 | v1.0 | 初版：整合 Claude Code、AntiGravity、Codex、OpenCode 通用流程 |
