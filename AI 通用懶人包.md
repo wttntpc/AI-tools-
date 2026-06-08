@@ -145,7 +145,10 @@ setx GEMINI_API_KEY "你的-API-KEY"
 ```
 
 ```bash
-# macOS / Linux
+# macOS
+echo 'export GEMINI_API_KEY="你的-API-KEY"' >> ~/.zshrc
+source ~/.zshrc
+# Linux
 echo 'export GEMINI_API_KEY="你的-API-KEY"' >> ~/.bashrc
 source ~/.bashrc
 ```
@@ -170,11 +173,26 @@ npm.cmd install -g @bitbonsai/mcpvault
 where.exe mcpvault
 ```
 
+**先設定 vault 路徑為環境變數：**
+
+```powershell
+# Windows
+setx OBSIDIAN_VAULT_PATH "C:\Users\你\OneDrive\文件\Secondbrain"
+```
+```bash
+# macOS
+echo 'export OBSIDIAN_VAULT_PATH="$HOME/Documents/Secondbrain"' >> ~/.zshrc
+source ~/.zshrc
+# Linux
+echo 'export OBSIDIAN_VAULT_PATH="$HOME/Documents/Secondbrain"' >> ~/.bashrc
+source ~/.bashrc
+```
+
 ### 依 Agent 類型註冊 MCP
 
 **Claude Code：**
 ```bash
-claude mcp add obsidian -- mcpvault "C:\你的\vault\路徑"
+claude mcp add obsidian -e OBSIDIAN_VAULT_PATH="$OBSIDIAN_VAULT_PATH" -- mcpvault "$OBSIDIAN_VAULT_PATH"
 ```
 
 **AntiGravity / Codex / OpenCode（opencode.json）：**
@@ -183,7 +201,10 @@ claude mcp add obsidian -- mcpvault "C:\你的\vault\路徑"
   "mcp": {
     "obsidian": {
       "type": "local",
-      "command": ["mcpvault", "C:\\你的\\vault\\路徑"],
+      "command": ["mcpvault", "${OBSIDIAN_VAULT_PATH}"],
+      "env": {
+        "OBSIDIAN_VAULT_PATH": "${OBSIDIAN_VAULT_PATH}"
+      },
       "enabled": true
     }
   }
@@ -195,7 +216,9 @@ claude mcp add obsidian -- mcpvault "C:\你的\vault\路徑"
 mcp_servers:
   obsidian:
     command: mcpvault
-    args: ["C:\\你的\\vault\\路徑"]
+    args: ["${OBSIDIAN_VAULT_PATH}"]
+    env:
+      OBSIDIAN_VAULT_PATH: "${OBSIDIAN_VAULT_PATH}"
     enabled: true
 ```
 
@@ -219,7 +242,10 @@ setx NOTION_API_KEY "ntn_你的token"
 ```
 
 ```bash
-# macOS / Linux
+# macOS
+echo 'export NOTION_API_KEY="ntn_你的token"' >> ~/.zshrc
+source ~/.zshrc
+# Linux
 echo 'export NOTION_API_KEY="ntn_你的token"' >> ~/.bashrc
 source ~/.bashrc
 ```
@@ -228,7 +254,7 @@ source ~/.bashrc
 
 **Claude Code：**
 ```bash
-claude mcp add notion -- npx -y @notionhq/notion-mcp-server
+claude mcp add notion -e NOTION_API_KEY="$NOTION_API_KEY" -- npx -y @notionhq/notion-mcp-server
 ```
 
 **AntiGravity / Codex / OpenCode（opencode.json）：**
@@ -266,10 +292,16 @@ mcp_servers:
 ## Step 6：連接 Firebase（選用）
 
 ```powershell
-# Windows 使用 npx.cmd 避免執行原則問題
+# Windows（使用 npx.cmd 避免執行原則問題）
 npx.cmd -y firebase-tools@latest --version
 npx.cmd -y firebase-tools@latest login
 npx.cmd -y firebase-tools@latest projects:list
+```
+```bash
+# macOS / Linux
+npx -y firebase-tools@latest --version
+npx -y firebase-tools@latest login
+npx -y firebase-tools@latest projects:list
 ```
 
 ### 依 Agent 類型註冊 MCP
@@ -316,10 +348,18 @@ mcp_servers:
 # Windows
 setx GOOGLE_CALENDAR_CREDENTIALS "C:\Users\你\.google\client_secret_xxx.json"
 ```
+```bash
+# macOS
+echo 'export GOOGLE_CALENDAR_CREDENTIALS="$HOME/.google/client_secret_xxx.json"' >> ~/.zshrc
+source ~/.zshrc
+# Linux
+echo 'export GOOGLE_CALENDAR_CREDENTIALS="$HOME/.google/client_secret_xxx.json"' >> ~/.bashrc
+source ~/.bashrc
+```
 
 **Claude Code：**
 ```bash
-claude mcp add google-calendar -e GOOGLE_CALENDAR_CREDENTIALS="$GOOGLE_CALENDAR_CREDENTIALS" -- npx -y @gongrzhe/server-google-calendar-mcp
+claude mcp add google-calendar -e GOOGLE_CALENDAR_CREDENTIALS="$GOOGLE_CALENDAR_CREDENTIALS" -- npx -y @modelcontextprotocol/server-google-calendar
 ```
 
 **AntiGravity / Codex / OpenCode（opencode.json）：**
@@ -328,7 +368,7 @@ claude mcp add google-calendar -e GOOGLE_CALENDAR_CREDENTIALS="$GOOGLE_CALENDAR_
   "mcp": {
     "google-calendar": {
       "type": "local",
-      "command": ["npx", "-y", "@gongrzhe/server-google-calendar-mcp"],
+      "command": ["npx", "-y", "@modelcontextprotocol/server-google-calendar"],
       "env": {
         "GOOGLE_CALENDAR_CREDENTIALS": "${GOOGLE_CALENDAR_CREDENTIALS}"
       },
@@ -343,7 +383,7 @@ claude mcp add google-calendar -e GOOGLE_CALENDAR_CREDENTIALS="$GOOGLE_CALENDAR_
 mcp_servers:
   google-calendar:
     command: npx
-    args: ["-y", "@gongrzhe/server-google-calendar-mcp"]
+    args: ["-y", "@modelcontextprotocol/server-google-calendar"]
     env:
       GOOGLE_CALENDAR_CREDENTIALS: "${GOOGLE_CALENDAR_CREDENTIALS}"
     enabled: true
@@ -364,14 +404,19 @@ mcp_servers:
 4. **Credentials → Create Credentials → OAuth client ID** → Desktop app → 下載憑證，存到 `C:\Users\你\.google\`
 
 ```powershell
-# 複製憑證到 Gmail MCP 指定位置
+# Windows — 複製憑證到 Gmail MCP 指定位置
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.gmail-mcp"
 Copy-Item "C:\Users\你\.google\client_secret_xxx.json" "$env:USERPROFILE\.gmail-mcp\gcp-oauth.keys.json"
-```
-
-```powershell
-# Windows
 setx GOOGLE_GMAIL_CREDENTIALS "C:\Users\你\.google\client_secret_xxx.json"
+```
+```bash
+# macOS / Linux — 複製憑證到 Gmail MCP 指定位置
+mkdir -p ~/.gmail-mcp
+cp ~/.google/client_secret_xxx.json ~/.gmail-mcp/gcp-oauth.keys.json
+# macOS
+echo 'export GOOGLE_GMAIL_CREDENTIALS="$HOME/.google/client_secret_xxx.json"' >> ~/.zshrc && source ~/.zshrc
+# Linux
+echo 'export GOOGLE_GMAIL_CREDENTIALS="$HOME/.google/client_secret_xxx.json"' >> ~/.bashrc && source ~/.bashrc
 ```
 
 **Claude Code：**
@@ -421,10 +466,18 @@ mcp_servers:
 # Windows
 setx GOOGLE_DRIVE_CREDENTIALS "C:\Users\你\.google\client_secret_xxx.json"
 ```
+```bash
+# macOS
+echo 'export GOOGLE_DRIVE_CREDENTIALS="$HOME/.google/client_secret_xxx.json"' >> ~/.zshrc
+source ~/.zshrc
+# Linux
+echo 'export GOOGLE_DRIVE_CREDENTIALS="$HOME/.google/client_secret_xxx.json"' >> ~/.bashrc
+source ~/.bashrc
+```
 
 **Claude Code：**
 ```bash
-claude mcp add google-drive -e GOOGLE_DRIVE_CREDENTIALS="$GOOGLE_DRIVE_CREDENTIALS" -- npx -y @googleapis/mcp
+claude mcp add google-drive -e GOOGLE_DRIVE_CREDENTIALS="$GOOGLE_DRIVE_CREDENTIALS" -- npx -y @modelcontextprotocol/server-gdrive
 ```
 
 **AntiGravity / Codex / OpenCode（opencode.json）：**
@@ -433,7 +486,7 @@ claude mcp add google-drive -e GOOGLE_DRIVE_CREDENTIALS="$GOOGLE_DRIVE_CREDENTIA
   "mcp": {
     "google-drive": {
       "type": "local",
-      "command": ["npx", "-y", "@googleapis/mcp"],
+      "command": ["npx", "-y", "@modelcontextprotocol/server-gdrive"],
       "env": {
         "GOOGLE_DRIVE_CREDENTIALS": "${GOOGLE_DRIVE_CREDENTIALS}"
       },
@@ -448,7 +501,7 @@ claude mcp add google-drive -e GOOGLE_DRIVE_CREDENTIALS="$GOOGLE_DRIVE_CREDENTIA
 mcp_servers:
   google-drive:
     command: npx
-    args: ["-y", "@googleapis/mcp"]
+    args: ["-y", "@modelcontextprotocol/server-gdrive"]
     env:
       GOOGLE_DRIVE_CREDENTIALS: "${GOOGLE_DRIVE_CREDENTIALS}"
     enabled: true
