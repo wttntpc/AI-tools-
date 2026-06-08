@@ -1,6 +1,6 @@
-# Anti-Gravity 懶人包
+# AI tools connect 懶人包
 
-這個 repo 只放 Anti-Gravity 使用者可公開套用的懶人包文件，不放個人 NotebookLM 清單、研究產物、生成圖片、測試專案或任何帳號資料。
+這個 repo 放置使用者可公開套用的懶人包文件，不放個人 NotebookLM 清單、研究產物、生成圖片、測試專案或任何帳號資料。
 
 ## 目前檔案
 
