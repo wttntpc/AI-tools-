@@ -1,6 +1,6 @@
 ---
 name: ai-tools-google-calendar
-description: 連接 Google Calendar MCP — 讓 AI 讀取、建立、修改行事曆事件。說「連接 Google Calendar」「設定行事曆」時載入。
+description: 連接 Google Calendar MCP — 讓 AI 讀取、建立、修改行事曆事件。適用 Claude Code、AntiGravity、Codex、OpenCode、Hermes Agent。說「連接 Google Calendar」「設定行事曆」時載入。
 ---
 
 # 連接 Google Calendar（通用版）

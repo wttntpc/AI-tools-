@@ -1,6 +1,6 @@
 ---
 name: ai-tools-github
-description: 連接 GitHub CLI — 適用 Claude Code、AntiGravity、Codex、OpenCode。說「連接 GitHub」「設定 GitHub」時載入。
+description: 連接 GitHub CLI — 適用 Claude Code、AntiGravity、Codex、OpenCode、Hermes Agent。說「連接 GitHub」「設定 GitHub」時載入。
 ---
 
 # 連接 GitHub CLI（通用版）

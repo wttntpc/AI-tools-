@@ -1,6 +1,6 @@
 ---
 name: notion-mcp
-description: 連接 Notion MCP — 讓 AI 直接讀寫 Notion 頁面與資料庫。說「連接 Notion」「Notion MCP」時載入。
+description: 連接 Notion MCP — 讓 AI 直接讀寫 Notion 頁面與資料庫。適用 Claude Code、AntiGravity、Codex、OpenCode、Hermes Agent。說「連接 Notion」「Notion MCP」時載入。
 ---
 
 # 連接 Notion MCP

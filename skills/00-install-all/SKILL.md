@@ -1,6 +1,6 @@
 ---
 name: ai-tools-install-all
-description: 一次安裝所有通用 AI 工具懶人包技能。說「全部安裝」「裝完所有懶人包」時載入。適用 Claude Code、AntiGravity、Codex、OpenCode。
+description: 一次安裝所有通用 AI 工具懶人包技能。說「全部安裝」「裝完所有懶人包」時載入。適用 Claude Code、AntiGravity、Codex、OpenCode、Hermes Agent。
 ---
 
 # 一次安裝全部技能

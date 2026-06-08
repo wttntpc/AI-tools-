@@ -1,6 +1,6 @@
 ---
 name: ai-tools-google-drive
-description: 連接 Google Drive MCP — 讓 AI 讀取雲端硬碟檔案，包含 PDF、Docs、Sheets、簡報。說「連接 Google Drive」「讀取雲端硬碟」時載入。
+description: 連接 Google Drive MCP — 讓 AI 讀取雲端硬碟檔案，包含 PDF、Docs、Sheets、簡報。適用 Claude Code、AntiGravity、Codex、OpenCode、Hermes Agent。說「連接 Google Drive」「讀取雲端硬碟」時載入。
 ---
 
 # 連接 Google Drive（通用版）

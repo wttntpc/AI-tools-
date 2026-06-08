@@ -1,6 +1,6 @@
 ---
 name: ai-tools-zotero
-description: 連接 Zotero 本機 API — 讓 AI 直接查詢、引用你的文獻庫。說「連接 Zotero」「查詢文獻」時載入。
+description: 連接 Zotero 本機 API — 讓 AI 直接查詢、引用你的文獻庫。適用所有 Agent（Claude Code、AntiGravity、Codex、OpenCode、Hermes Agent）。說「連接 Zotero」「查詢文獻」時載入。
 ---
 
 # 連接 Zotero（通用版）

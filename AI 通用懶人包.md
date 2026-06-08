@@ -169,8 +169,14 @@ Invoke-RestMethod -Uri "https://generativelanguage.googleapis.com/v1beta/models/
 ### 安裝 MCPVault
 
 ```powershell
+# Windows
 npm.cmd install -g @bitbonsai/mcpvault
 where.exe mcpvault
+```
+```bash
+# macOS / Linux
+npm install -g @bitbonsai/mcpvault
+which mcpvault
 ```
 
 **先設定 vault 路徑為環境變數：**
