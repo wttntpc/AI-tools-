@@ -21,7 +21,10 @@ setx NOTION_API_KEY "ntn_你的token"
 ```
 
 ```bash
-# macOS / Linux
+# macOS
+echo 'export NOTION_API_KEY="ntn_你的token"' >> ~/.zshrc
+source ~/.zshrc
+# Linux
 echo 'export NOTION_API_KEY="ntn_你的token"' >> ~/.bashrc
 source ~/.bashrc
 ```
@@ -30,7 +33,7 @@ source ~/.bashrc
 
 **Claude Code：**
 ```bash
-claude mcp add notion -- npx -y @notionhq/notion-mcp-server
+claude mcp add notion -e NOTION_API_KEY="$NOTION_API_KEY" -- npx -y @notionhq/notion-mcp-server
 ```
 
 **AntiGravity / Codex / OpenCode（opencode.json）：**
