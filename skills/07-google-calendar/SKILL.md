@@ -62,7 +62,7 @@ source ~/.bashrc
 
 **Claude Code：**
 ```bash
-claude mcp add google-calendar -e GOOGLE_CALENDAR_CREDENTIALS="$GOOGLE_CALENDAR_CREDENTIALS" -- npx -y @anthropic-labs/mcp-google-calendar
+claude mcp add google-calendar -e GOOGLE_CALENDAR_CREDENTIALS="$GOOGLE_CALENDAR_CREDENTIALS" -- npx -y @modelcontextprotocol/server-google-calendar
 ```
 
 **AntiGravity / Codex / OpenCode（opencode.json）：**
@@ -71,7 +71,7 @@ claude mcp add google-calendar -e GOOGLE_CALENDAR_CREDENTIALS="$GOOGLE_CALENDAR_
   "mcp": {
     "google-calendar": {
       "type": "local",
-      "command": ["npx", "-y", "@anthropic-labs/mcp-google-calendar"],
+      "command": ["npx", "-y", "@modelcontextprotocol/server-google-calendar"],
       "env": {
         "GOOGLE_CALENDAR_CREDENTIALS": "${GOOGLE_CALENDAR_CREDENTIALS}"
       },
@@ -86,7 +86,7 @@ claude mcp add google-calendar -e GOOGLE_CALENDAR_CREDENTIALS="$GOOGLE_CALENDAR_
 mcp_servers:
   google-calendar:
     command: npx
-    args: ["-y", "@anthropic-labs/mcp-google-calendar"]
+    args: ["-y", "@modelcontextprotocol/server-google-calendar"]
     env:
       GOOGLE_CALENDAR_CREDENTIALS: "${GOOGLE_CALENDAR_CREDENTIALS}"
     enabled: true

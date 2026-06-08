@@ -66,7 +66,7 @@ source ~/.bashrc
 
 **Claude Code：**
 ```bash
-claude mcp add google-drive -e GOOGLE_DRIVE_CREDENTIALS="$GOOGLE_DRIVE_CREDENTIALS" -- npx -y @googleapis/mcp
+claude mcp add google-drive -e GOOGLE_DRIVE_CREDENTIALS="$GOOGLE_DRIVE_CREDENTIALS" -- npx -y @modelcontextprotocol/server-gdrive
 ```
 
 **AntiGravity / Codex / OpenCode（opencode.json）：**
@@ -75,7 +75,7 @@ claude mcp add google-drive -e GOOGLE_DRIVE_CREDENTIALS="$GOOGLE_DRIVE_CREDENTIA
   "mcp": {
     "google-drive": {
       "type": "local",
-      "command": ["npx", "-y", "@googleapis/mcp"],
+      "command": ["npx", "-y", "@modelcontextprotocol/server-gdrive"],
       "env": {
         "GOOGLE_DRIVE_CREDENTIALS": "${GOOGLE_DRIVE_CREDENTIALS}"
       },
@@ -90,7 +90,7 @@ claude mcp add google-drive -e GOOGLE_DRIVE_CREDENTIALS="$GOOGLE_DRIVE_CREDENTIA
 mcp_servers:
   google-drive:
     command: npx
-    args: ["-y", "@googleapis/mcp"]
+    args: ["-y", "@modelcontextprotocol/server-gdrive"]
     env:
       GOOGLE_DRIVE_CREDENTIALS: "${GOOGLE_DRIVE_CREDENTIALS}"
     enabled: true
