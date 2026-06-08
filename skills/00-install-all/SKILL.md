@@ -1,6 +1,6 @@
 ---
-name: antigravity-install-all
-description: 一次安裝所有 AntiGravity 懶人包技能。說「全部安裝」「裝完所有 AntiGravity 懶人包」時載入。
+name: ai-tools-install-all
+description: 一次安裝所有通用 AI 工具懶人包技能。說「全部安裝」「裝完所有懶人包」時載入。適用 Claude Code、AntiGravity、Codex、OpenCode。
 ---
 
 # 一次安裝全部技能
@@ -9,10 +9,11 @@ description: 一次安裝所有 AntiGravity 懶人包技能。說「全部安裝
 
 1. **01-notebooklm** — 連接 NotebookLM
 2. **02-github** — 連接 GitHub
-3. **03-firebase** — 連接 Firebase
-4. **04-draw** — 生圖指引
+3. **03-obsidian** — 連接 Obsidian (MCPVault)
+4. **04-notion** — 連接 Notion
 5. **05-workflow** — 開工/收工/初始化
-6. **06-obsidian** — 連接 Obsidian (MCPVault)
+6. **06-firebase** — 連接 Firebase
 
 每完成一個報告進度，最終回報總表。
 已安裝的工具自動跳過。
+有錯誤時自動診斷並修正，修正後繼續下一個。
