@@ -1,6 +1,6 @@
 ---
 name: ai-tools-notebooklm
-description: 連接 NotebookLM MCP — 適用 Claude Code、AntiGravity、Codex、OpenCode。說「連接 NotebookLM」「設定 NotebookLM」時載入。
+description: 連接 NotebookLM MCP — 適用 Claude Code、AntiGravity、Codex、OpenCode、Hermes Agent。說「連接 NotebookLM」「設定 NotebookLM」時載入。
 ---
 
 # 連接 NotebookLM（通用版）
@@ -55,6 +55,15 @@ claude mcp add notebooklm -- nlm mcp
     }
   }
 }
+```
+
+**Hermes Agent（~/.hermes/config.yaml）：**
+```yaml
+mcp_servers:
+  notebooklm:
+    command: nlm
+    args: ["mcp"]
+    enabled: true
 ```
 
 ### 5. 驗證連線

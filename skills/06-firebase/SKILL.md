@@ -1,6 +1,6 @@
 ---
 name: ai-tools-firebase
-description: 連接 Firebase MCP — 適用 Claude Code、AntiGravity、Codex、OpenCode。說「連接 Firebase」「設定 Firebase」時載入。
+description: 連接 Firebase MCP — 適用 Claude Code、AntiGravity、Codex、OpenCode、Hermes Agent。說「連接 Firebase」「設定 Firebase」時載入。
 ---
 
 # 連接 Firebase（通用版）
@@ -41,6 +41,15 @@ claude mcp add firebase -- npx -y firebase-tools@latest mcp
     }
   }
 }
+```
+
+**Hermes Agent（~/.hermes/config.yaml）：**
+```yaml
+mcp_servers:
+  firebase:
+    command: npx
+    args: ["-y", "firebase-tools@latest", "mcp"]
+    enabled: true
 ```
 
 ### 3. 驗證

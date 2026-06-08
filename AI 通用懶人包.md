@@ -1,6 +1,6 @@
-# 通用 AI 工具連接懶人包 v1.3
+# 通用 AI 工具連接懶人包 v1.4
 
-> 適用：Claude Code、AntiGravity、Codex（OpenAI）、OpenCode
+> 適用：Claude Code、AntiGravity、Codex（OpenAI）、OpenCode、Hermes Agent
 > 更新日期：2026-06-08
 > 語系偏好：繁體中文（Taiwan）
 
@@ -20,8 +20,11 @@ AI 請先自動判斷目前的執行環境，並告知使用者：
 | AntiGravity | `ANTIGRAVITY.md` | `opencode.json` 或 UI |
 | Codex (OpenAI) | `AGENTS.md` | `opencode.json` 或 CLI flag |
 | OpenCode | `OPENCODE.md` 或 `CLAUDE.md` | `opencode.json` |
+| Hermes Agent | `AGENTS.md`（或 `.hermes.md`） | `~/.hermes/config.yaml` |
 
 > 如果無法自動偵測，請問使用者：「你現在用的是哪個 AI Agent？」
+
+> 💡 **Hermes 規則檔載入順序**：`.hermes.md` → `AGENTS.md` → `CLAUDE.md` → `.cursorrules`（第一個找到的為準）
 
 ### 環境檢查
 
@@ -96,6 +99,15 @@ claude mcp add notebooklm -- nlm mcp
 }
 ```
 
+**Hermes Agent（~/.hermes/config.yaml）：**
+```yaml
+mcp_servers:
+  notebooklm:
+    command: nlm
+    args: ["mcp"]
+    enabled: true
+```
+
 重啟 Agent 後，請 AI 列出 NotebookLM 筆記本確認連線成功。
 
 ---
@@ -118,6 +130,7 @@ git config --global user.email
 ```
 
 > 安全規則：不把 GitHub token 寫進任何 Markdown 或 repo
+> Hermes Agent 使用 `AGENTS.md` 作為規則檔（與 Codex 相同）
 
 ---
 
@@ -177,6 +190,15 @@ claude mcp add obsidian -- mcpvault "C:\你的\vault\路徑"
 }
 ```
 
+**Hermes Agent（~/.hermes/config.yaml）：**
+```yaml
+mcp_servers:
+  obsidian:
+    command: mcpvault
+    args: ["C:\\你的\\vault\\路徑"]
+    enabled: true
+```
+
 ---
 
 ## Step 5：連接 Notion（選用）
@@ -225,6 +247,17 @@ claude mcp add notion -- npx -y @notionhq/notion-mcp-server
 }
 ```
 
+**Hermes Agent（~/.hermes/config.yaml）：**
+```yaml
+mcp_servers:
+  notion:
+    command: npx
+    args: ["-y", "@notionhq/notion-mcp-server"]
+    env:
+      NOTION_API_KEY: "${NOTION_API_KEY}"
+    enabled: true
+```
+
 > 重啟 Agent 後，請 AI 列出 Notion 資料庫確認連線成功。
 > 記得在 Notion 頁面右上角「Share」→ 把 Integration 加進去，AI 才能存取該頁面。
 
@@ -259,6 +292,15 @@ claude mcp add firebase -- npx -y firebase-tools@latest mcp
 }
 ```
 
+**Hermes Agent（~/.hermes/config.yaml）：**
+```yaml
+mcp_servers:
+  firebase:
+    command: npx
+    args: ["-y", "firebase-tools@latest", "mcp"]
+    enabled: true
+```
+
 ---
 
 ## Step 7：連接 Google Calendar（選用）
@@ -278,6 +320,33 @@ setx GOOGLE_CALENDAR_CREDENTIALS "C:\Users\你\.google\client_secret_xxx.json"
 **Claude Code：**
 ```bash
 claude mcp add google-calendar -e GOOGLE_CALENDAR_CREDENTIALS="$GOOGLE_CALENDAR_CREDENTIALS" -- npx -y @gongrzhe/server-google-calendar-mcp
+```
+
+**AntiGravity / Codex / OpenCode（opencode.json）：**
+```json
+{
+  "mcp": {
+    "google-calendar": {
+      "type": "local",
+      "command": ["npx", "-y", "@gongrzhe/server-google-calendar-mcp"],
+      "env": {
+        "GOOGLE_CALENDAR_CREDENTIALS": "${GOOGLE_CALENDAR_CREDENTIALS}"
+      },
+      "enabled": true
+    }
+  }
+}
+```
+
+**Hermes Agent（~/.hermes/config.yaml）：**
+```yaml
+mcp_servers:
+  google-calendar:
+    command: npx
+    args: ["-y", "@gongrzhe/server-google-calendar-mcp"]
+    env:
+      GOOGLE_CALENDAR_CREDENTIALS: "${GOOGLE_CALENDAR_CREDENTIALS}"
+    enabled: true
 ```
 
 `.gitignore` 加入：`client_secret*.json`、`token*.json`
@@ -310,6 +379,33 @@ setx GOOGLE_GMAIL_CREDENTIALS "C:\Users\你\.google\client_secret_xxx.json"
 claude mcp add gmail -e GOOGLE_GMAIL_CREDENTIALS="$GOOGLE_GMAIL_CREDENTIALS" -- npx -y @gongrzhe/server-gmail-autoauth-mcp
 ```
 
+**AntiGravity / Codex / OpenCode（opencode.json）：**
+```json
+{
+  "mcp": {
+    "gmail": {
+      "type": "local",
+      "command": ["npx", "-y", "@gongrzhe/server-gmail-autoauth-mcp"],
+      "env": {
+        "GOOGLE_GMAIL_CREDENTIALS": "${GOOGLE_GMAIL_CREDENTIALS}"
+      },
+      "enabled": true
+    }
+  }
+}
+```
+
+**Hermes Agent（~/.hermes/config.yaml）：**
+```yaml
+mcp_servers:
+  gmail:
+    command: npx
+    args: ["-y", "@gongrzhe/server-gmail-autoauth-mcp"]
+    env:
+      GOOGLE_GMAIL_CREDENTIALS: "${GOOGLE_GMAIL_CREDENTIALS}"
+    enabled: true
+```
+
 ---
 
 ## Step 9：連接 Google Drive（選用）
@@ -331,12 +427,40 @@ setx GOOGLE_DRIVE_CREDENTIALS "C:\Users\你\.google\client_secret_xxx.json"
 claude mcp add google-drive -e GOOGLE_DRIVE_CREDENTIALS="$GOOGLE_DRIVE_CREDENTIALS" -- npx -y @googleapis/mcp
 ```
 
+**AntiGravity / Codex / OpenCode（opencode.json）：**
+```json
+{
+  "mcp": {
+    "google-drive": {
+      "type": "local",
+      "command": ["npx", "-y", "@googleapis/mcp"],
+      "env": {
+        "GOOGLE_DRIVE_CREDENTIALS": "${GOOGLE_DRIVE_CREDENTIALS}"
+      },
+      "enabled": true
+    }
+  }
+}
+```
+
+**Hermes Agent（~/.hermes/config.yaml）：**
+```yaml
+mcp_servers:
+  google-drive:
+    command: npx
+    args: ["-y", "@googleapis/mcp"]
+    env:
+      GOOGLE_DRIVE_CREDENTIALS: "${GOOGLE_DRIVE_CREDENTIALS}"
+    enabled: true
+```
+
 ---
 
 ## Step 10：連接 Zotero（選用）
 
 > 使用本機 API（localhost:23119），不需要 API Key，資料完全不離開本機。
 > ⚠️ 已知問題：`zotero-mcp` npm 套件與 Zotero 7.x 不相容，改用直接 API 呼叫。
+> 此方式適用所有 Agent（Claude Code、AntiGravity、Codex、OpenCode、Hermes）。
 
 1. 開啟 Zotero → `Edit` → `Preferences` → **進階**
 2. 勾選「**允許此電腦上的其他應用程式與 Zotero 通訊**」
@@ -355,12 +479,13 @@ curl -s "http://localhost:23119/api/users/0/items?itemType=journalArticle&limit=
 
 根據偵測到的 Agent，在專案根目錄建立對應規則檔：
 
-| Agent | 檔名 |
-|-------|------|
-| Claude Code | `CLAUDE.md` |
-| AntiGravity | `ANTIGRAVITY.md` |
-| Codex | `AGENTS.md` |
-| OpenCode | `OPENCODE.md` |
+| Agent | 規則檔 | 備註 |
+|-------|--------|------|
+| Claude Code | `CLAUDE.md` | |
+| AntiGravity | `ANTIGRAVITY.md` | |
+| Codex | `AGENTS.md` | |
+| OpenCode | `OPENCODE.md` | |
+| Hermes Agent | `AGENTS.md` 或 `.hermes.md` | 優先讀取 `.hermes.md` |
 
 ### 通用規則檔範本
 
@@ -406,7 +531,7 @@ GitHub repo：
 ### 開工（對任何 Agent 說「開工」）
 
 AI 應執行：
-1. 讀取對應規則檔（CLAUDE.md / ANTIGRAVITY.md / AGENTS.md）
+1. 讀取對應規則檔（CLAUDE.md / ANTIGRAVITY.md / AGENTS.md / .hermes.md）
 2. 執行 `git status` 確認目前狀態
 3. 讀取最近 3 筆 commit：`git log --oneline -3`
 4. 回報狀態與建議下一步
@@ -429,7 +554,7 @@ AI 完成安裝後請用以下格式回報：
 ```
 ## 通用懶人包設定完成
 
-Agent 類型：Claude Code / AntiGravity / Codex / OpenCode
+Agent 類型：Claude Code / AntiGravity / Codex / OpenCode / Hermes Agent
 作業系統：Windows / macOS / Linux
 
 - NotebookLM MCP：✅ 已連接 / ⚠️ 待 OAuth / ❌ 失敗
@@ -466,6 +591,8 @@ Agent 類型：Claude Code / AntiGravity / Codex / OpenCode
 | Gmail OAuth access_denied | 到 Google Cloud Console → OAuth consent screen → 目標對象 → 加入你的 Gmail 為測試使用者 |
 | Gmail MCP 連線失敗 | 確認憑證已複製到 `~/.gmail-mcp/gcp-oauth.keys.json` |
 | Zotero 連線失敗 | 確認 Zotero 桌面程式已開啟，且已勾選本機 API 選項 |
+| Hermes MCP 工具沒出現 | 確認 `~/.hermes/config.yaml` 格式正確（YAML 縮排敏感），重啟 Hermes |
+| Hermes 規則檔沒被讀取 | 優先建立 `.hermes.md`，或確認 `AGENTS.md` 在專案根目錄 |
 
 ---
 
@@ -483,7 +610,8 @@ Agent 類型：Claude Code / AntiGravity / Codex / OpenCode
 
 | 日期 | 版本 | 內容 |
 |------|------|------|
+| 2026-06-08 | v1.4 | 新增 Hermes Agent 支援（Step 0 偵測、每個 Step 的 YAML 設定、附錄規則檔說明） |
 | 2026-06-08 | v1.3 | 步驟重新編號為 Step 0-10，Step 0 合併偵測+環境，規則檔和開工收工改為附錄，修正 Gmail scope 說明，新增資安維護章節 |
-| 2026-06-08 | v1.2 | 新增 Google Calendar（Step 8）、Gmail（Step 9）、Google Drive（Step 10）、Zotero（Step 11），步驟重新編號 |
+| 2026-06-08 | v1.2 | 新增 Google Calendar、Gmail、Google Drive、Zotero，步驟重新編號 |
 | 2026-06-08 | v1.1 | 新增 Notion MCP 連接，移除付費生圖步驟，步驟重新編號 |
 | 2026-06-08 | v1.0 | 初版：整合 Claude Code、AntiGravity、Codex、OpenCode 通用流程 |

@@ -38,8 +38,11 @@
 | AntiGravity | `ANTIGRAVITY.md` | `opencode.json` |
 | Codex (OpenAI) | `AGENTS.md` | `opencode.json` |
 | OpenCode | `OPENCODE.md` | `opencode.json` |
+| Hermes Agent | `AGENTS.md` 或 `.hermes.md` | `~/.hermes/config.yaml` |
 
 懶人包會自動偵測你使用的 Agent，套用對應的設定方式。
+
+> 💡 **Hermes Agent** 使用 `~/.hermes/config.yaml`（YAML 格式），與其他 Agent 的 `opencode.json` 不同。
 
 ---
 

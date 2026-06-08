@@ -1,6 +1,6 @@
 ---
 name: ai-tools-lazy-packs
-description: 通用 AI 工具連接懶人包 — 適用 Claude Code、AntiGravity、Codex、OpenCode。說「AI 工具懶人包」「安裝通用設定」時載入。
+description: 通用 AI 工具連接懶人包 — 適用 Claude Code、AntiGravity、Codex、OpenCode、Hermes Agent。說「AI 工具懶人包」「安裝通用設定」時載入。
 ---
 
 # 通用 AI 工具懶人包 — AI Agent 自動安裝入口

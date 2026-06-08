@@ -81,6 +81,17 @@ claude mcp add google-calendar -e GOOGLE_CALENDAR_CREDENTIALS="$GOOGLE_CALENDAR_
 }
 ```
 
+**Hermes Agent（~/.hermes/config.yaml）：**
+```yaml
+mcp_servers:
+  google-calendar:
+    command: npx
+    args: ["-y", "@anthropic-labs/mcp-google-calendar"]
+    env:
+      GOOGLE_CALENDAR_CREDENTIALS: "${GOOGLE_CALENDAR_CREDENTIALS}"
+    enabled: true
+```
+
 ### 4. 驗證
 
 重啟 Agent 後，請 AI：「列出我本週的 Google Calendar 事件」

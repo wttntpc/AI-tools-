@@ -49,6 +49,17 @@ claude mcp add notion -- npx -y @notionhq/notion-mcp-server
 }
 ```
 
+**Hermes Agent（~/.hermes/config.yaml）：**
+```yaml
+mcp_servers:
+  notion:
+    command: npx
+    args: ["-y", "@notionhq/notion-mcp-server"]
+    env:
+      NOTION_API_KEY: "${NOTION_API_KEY}"
+    enabled: true
+```
+
 ## 驗證
 
 重啟 Agent 後，請 AI：「列出我的 Notion 資料庫」

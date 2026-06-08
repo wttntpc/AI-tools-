@@ -85,6 +85,17 @@ claude mcp add google-drive -e GOOGLE_DRIVE_CREDENTIALS="$GOOGLE_DRIVE_CREDENTIA
 }
 ```
 
+**Hermes Agent（~/.hermes/config.yaml）：**
+```yaml
+mcp_servers:
+  google-drive:
+    command: npx
+    args: ["-y", "@googleapis/mcp"]
+    env:
+      GOOGLE_DRIVE_CREDENTIALS: "${GOOGLE_DRIVE_CREDENTIALS}"
+    enabled: true
+```
+
 ### 4. 驗證
 
 重啟 Agent 後，請 AI：「列出我 Google Drive 最近修改的 5 個檔案」

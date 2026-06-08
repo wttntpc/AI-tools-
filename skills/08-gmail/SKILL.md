@@ -1,6 +1,6 @@
 ---
 name: ai-tools-gmail
-description: 連接 Gmail MCP — 讓 AI 讀取、搜尋、起草、發送郵件。說「連接 Gmail」「設定郵件」時載入。
+description: 連接 Gmail MCP — 讓 AI 讀取、搜尋、起草、發送郵件。適用 Claude Code、AntiGravity、Codex、OpenCode、Hermes Agent。說「連接 Gmail」「設定郵件」時載入。
 ---
 
 # 連接 Gmail（通用版）
@@ -102,6 +102,17 @@ claude mcp add gmail -e GOOGLE_GMAIL_CREDENTIALS="$GOOGLE_GMAIL_CREDENTIALS" -- 
     }
   }
 }
+```
+
+**Hermes Agent（~/.hermes/config.yaml）：**
+```yaml
+mcp_servers:
+  gmail:
+    command: npx
+    args: ["-y", "@gongrzhe/server-gmail-autoauth-mcp"]
+    env:
+      GOOGLE_GMAIL_CREDENTIALS: "${GOOGLE_GMAIL_CREDENTIALS}"
+    enabled: true
 ```
 
 ### 5. 驗證
