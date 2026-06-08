@@ -47,7 +47,7 @@ claude mcp add firebase -- npx -y firebase-tools@latest mcp
 ```yaml
 mcp_servers:
   firebase:
-    command: npx
+    command: npx        # Windows 請改為 npx.cmd
     args: ["-y", "firebase-tools@latest", "mcp"]
     enabled: true
 ```
