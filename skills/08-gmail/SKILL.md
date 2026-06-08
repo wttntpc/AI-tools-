@@ -76,7 +76,10 @@ setx GOOGLE_GMAIL_CREDENTIALS "C:\Users\你\.google\client_secret_xxx.json"
 ```
 
 ```bash
-# macOS / Linux
+# macOS
+echo 'export GOOGLE_GMAIL_CREDENTIALS="$HOME/.google/client_secret_xxx.json"' >> ~/.zshrc
+source ~/.zshrc
+# Linux
 echo 'export GOOGLE_GMAIL_CREDENTIALS="$HOME/.google/client_secret_xxx.json"' >> ~/.bashrc
 source ~/.bashrc
 ```
