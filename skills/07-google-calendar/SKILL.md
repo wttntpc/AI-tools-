@@ -53,7 +53,10 @@ setx GOOGLE_CALENDAR_CREDENTIALS "C:\Users\你\.google\client_secret_xxx.json"
 ```
 
 ```bash
-# macOS / Linux
+# macOS
+echo 'export GOOGLE_CALENDAR_CREDENTIALS="$HOME/.google/client_secret_xxx.json"' >> ~/.zshrc
+source ~/.zshrc
+# Linux
 echo 'export GOOGLE_CALENDAR_CREDENTIALS="$HOME/.google/client_secret_xxx.json"' >> ~/.bashrc
 source ~/.bashrc
 ```
@@ -92,11 +95,18 @@ mcp_servers:
     enabled: true
 ```
 
-### 4. 驗證
+### 4. 首次授權（OAuth token 交換）
+
+首次執行 MCP 時，套件會自動開啟瀏覽器進行授權：
+1. 選擇正確的 Google 帳號
+2. 允許存取 Calendar
+3. 授權完成後，token 會自動儲存（通常在 `~/.google/` 或套件預設路徑）
+
+> `client_secret_xxx.json` 只是 OAuth 用戶端金鑰，**不等於已授權**。首次必須完成瀏覽器授權流程才能正常使用。
+
+### 5. 驗證
 
 重啟 Agent 後，請 AI：「列出我本週的 Google Calendar 事件」
-
-首次使用會開啟瀏覽器授權，選正確 Google 帳號並允許存取 Calendar。
 
 ---
 
