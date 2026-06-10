@@ -27,6 +27,7 @@
 | 08 | Gmail | 讓 AI 讀取、搜尋、起草郵件 |
 | 09 | Google Drive | 讓 AI 讀取雲端 PDF、Docs、Sheets |
 | 10 | Zotero | 讓 AI 直接查詢、引用你的文獻庫 |
+| 11 | HackMD | 讓 AI 直接讀取、建立、編輯 HackMD 筆記與共筆 |
 
 ---
 
@@ -69,6 +70,7 @@
 
 | 日期 | 版本 | 內容 |
 |------|------|------|
+| 2026-06-10 | v1.5 | 新增 HackMD（11），支援 AI 讀寫 HackMD 筆記 |
 | 2026-06-08 | v1.4 | 所有 skill 改為選用，更新 SKILL.md 安裝流程 |
 | 2026-06-08 | v1.3 | 新增 Zotero（10），加強 07-09 資安說明 |
 | 2026-06-08 | v1.2 | 新增 Google Calendar、Gmail、Google Drive（07-09） |
