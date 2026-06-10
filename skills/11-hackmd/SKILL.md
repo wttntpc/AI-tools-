@@ -65,7 +65,7 @@ source ~/.bashrc
 
 **Claude Code：**
 ```bash
-claude mcp add hackmd -e HACKMD_API_TOKEN="$HACKMD_API_TOKEN" -- npx -y hackmd-mcp
+claude mcp add --env HACKMD_API_TOKEN="$HACKMD_API_TOKEN" hackmd -- npx -y hackmd-mcp
 ```
 
 **AntiGravity / Codex / OpenCode（opencode.json）：**
@@ -74,8 +74,9 @@ claude mcp add hackmd -e HACKMD_API_TOKEN="$HACKMD_API_TOKEN" -- npx -y hackmd-m
   "mcp": {
     "hackmd": {
       "type": "local",
-      "command": ["npx", "-y", "hackmd-mcp"],
-      "env": {
+      "command": "npx",
+      "args": ["-y", "hackmd-mcp"],
+      "environment": {
         "HACKMD_API_TOKEN": "${HACKMD_API_TOKEN}"
       },
       "enabled": true

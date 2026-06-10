@@ -1,7 +1,7 @@
 # 通用 AI 工具連接懶人包 v1.5
 
 > 適用：Claude Code、AntiGravity、Codex（OpenAI）、OpenCode、Hermes Agent
-> 更新日期：2026-06-10
+> 更新日期：2026-06-10（v1.6）
 > 語系偏好：繁體中文（Taiwan）
 
 這份懶人包讓任何支援 MCP 或工具呼叫的 AI Agent，都能用同一份流程完成 NotebookLM、GitHub、Gemini、Obsidian、Notion、Firebase、Google Calendar、Gmail、Google Drive、Zotero、HackMD 的連接與開工收工工作流程設定。
@@ -92,7 +92,8 @@ claude mcp add notebooklm -- nlm mcp
   "mcp": {
     "notebooklm": {
       "type": "local",
-      "command": ["nlm", "mcp"],
+      "command": "nlm",
+      "args": ["mcp"],
       "enabled": true
     }
   }
@@ -198,7 +199,7 @@ source ~/.bashrc
 
 **Claude Code：**
 ```bash
-claude mcp add obsidian -e OBSIDIAN_VAULT_PATH="$OBSIDIAN_VAULT_PATH" -- mcpvault "$OBSIDIAN_VAULT_PATH"
+claude mcp add --env OBSIDIAN_VAULT_PATH="$OBSIDIAN_VAULT_PATH" obsidian -- mcpvault "$OBSIDIAN_VAULT_PATH"
 ```
 
 **AntiGravity / Codex / OpenCode（opencode.json）：**
@@ -207,8 +208,9 @@ claude mcp add obsidian -e OBSIDIAN_VAULT_PATH="$OBSIDIAN_VAULT_PATH" -- mcpvaul
   "mcp": {
     "obsidian": {
       "type": "local",
-      "command": ["mcpvault", "${OBSIDIAN_VAULT_PATH}"],
-      "env": {
+      "command": "mcpvault",
+      "args": ["${OBSIDIAN_VAULT_PATH}"],
+      "environment": {
         "OBSIDIAN_VAULT_PATH": "${OBSIDIAN_VAULT_PATH}"
       },
       "enabled": true
@@ -260,7 +262,7 @@ source ~/.bashrc
 
 **Claude Code：**
 ```bash
-claude mcp add notion -e NOTION_API_KEY="$NOTION_API_KEY" -- npx -y @notionhq/notion-mcp-server
+claude mcp add --env NOTION_API_KEY="$NOTION_API_KEY" notion -- npx -y @notionhq/notion-mcp-server
 ```
 
 **AntiGravity / Codex / OpenCode（opencode.json）：**
@@ -269,8 +271,9 @@ claude mcp add notion -e NOTION_API_KEY="$NOTION_API_KEY" -- npx -y @notionhq/no
   "mcp": {
     "notion": {
       "type": "local",
-      "command": ["npx", "-y", "@notionhq/notion-mcp-server"],
-      "env": {
+      "command": "npx",
+      "args": ["-y", "@notionhq/notion-mcp-server"],
+      "environment": {
         "NOTION_API_KEY": "${NOTION_API_KEY}"
       },
       "enabled": true
@@ -323,7 +326,8 @@ claude mcp add firebase -- npx -y firebase-tools@latest mcp
   "mcp": {
     "firebase": {
       "type": "local",
-      "command": ["npx.cmd", "-y", "firebase-tools@latest", "mcp"],
+      "command": "npx",
+      "args": ["-y", "firebase-tools@latest", "mcp"],
       "enabled": true
     }
   }
@@ -365,7 +369,7 @@ source ~/.bashrc
 
 **Claude Code：**
 ```bash
-claude mcp add google-calendar -e GOOGLE_CALENDAR_CREDENTIALS="$GOOGLE_CALENDAR_CREDENTIALS" -- npx -y @modelcontextprotocol/server-google-calendar
+claude mcp add --env GOOGLE_CALENDAR_CREDENTIALS="$GOOGLE_CALENDAR_CREDENTIALS" google-calendar -- npx -y @modelcontextprotocol/server-google-calendar
 ```
 
 **AntiGravity / Codex / OpenCode（opencode.json）：**
@@ -374,8 +378,9 @@ claude mcp add google-calendar -e GOOGLE_CALENDAR_CREDENTIALS="$GOOGLE_CALENDAR_
   "mcp": {
     "google-calendar": {
       "type": "local",
-      "command": ["npx", "-y", "@modelcontextprotocol/server-google-calendar"],
-      "env": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-google-calendar"],
+      "environment": {
         "GOOGLE_CALENDAR_CREDENTIALS": "${GOOGLE_CALENDAR_CREDENTIALS}"
       },
       "enabled": true
@@ -427,7 +432,7 @@ echo 'export GOOGLE_GMAIL_CREDENTIALS="$HOME/.google/client_secret_xxx.json"' >>
 
 **Claude Code：**
 ```bash
-claude mcp add gmail -e GOOGLE_GMAIL_CREDENTIALS="$GOOGLE_GMAIL_CREDENTIALS" -- npx -y @gongrzhe/server-gmail-autoauth-mcp
+claude mcp add --env GOOGLE_GMAIL_CREDENTIALS="$GOOGLE_GMAIL_CREDENTIALS" gmail -- npx -y @gongrzhe/server-gmail-autoauth-mcp
 ```
 
 **AntiGravity / Codex / OpenCode（opencode.json）：**
@@ -436,8 +441,9 @@ claude mcp add gmail -e GOOGLE_GMAIL_CREDENTIALS="$GOOGLE_GMAIL_CREDENTIALS" -- 
   "mcp": {
     "gmail": {
       "type": "local",
-      "command": ["npx", "-y", "@gongrzhe/server-gmail-autoauth-mcp"],
-      "env": {
+      "command": "npx",
+      "args": ["-y", "@gongrzhe/server-gmail-autoauth-mcp"],
+      "environment": {
         "GOOGLE_GMAIL_CREDENTIALS": "${GOOGLE_GMAIL_CREDENTIALS}"
       },
       "enabled": true
@@ -483,7 +489,7 @@ source ~/.bashrc
 
 **Claude Code：**
 ```bash
-claude mcp add google-drive -e GOOGLE_DRIVE_CREDENTIALS="$GOOGLE_DRIVE_CREDENTIALS" -- npx -y @modelcontextprotocol/server-gdrive
+claude mcp add --env GOOGLE_DRIVE_CREDENTIALS="$GOOGLE_DRIVE_CREDENTIALS" google-drive -- npx -y @modelcontextprotocol/server-gdrive
 ```
 
 **AntiGravity / Codex / OpenCode（opencode.json）：**
@@ -492,8 +498,9 @@ claude mcp add google-drive -e GOOGLE_DRIVE_CREDENTIALS="$GOOGLE_DRIVE_CREDENTIA
   "mcp": {
     "google-drive": {
       "type": "local",
-      "command": ["npx", "-y", "@modelcontextprotocol/server-gdrive"],
-      "env": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-gdrive"],
+      "environment": {
         "GOOGLE_DRIVE_CREDENTIALS": "${GOOGLE_DRIVE_CREDENTIALS}"
       },
       "enabled": true
@@ -549,7 +556,7 @@ source ~/.bashrc
 
 **Claude Code：**
 ```bash
-claude mcp add hackmd -e HACKMD_API_TOKEN="%HACKMD_API_TOKEN%" -- npx -y hackmd-mcp
+claude mcp add --env HACKMD_API_TOKEN="$HACKMD_API_TOKEN" hackmd -- npx -y hackmd-mcp
 ```
 
 **AntiGravity / Codex / OpenCode（opencode.json）：**
@@ -558,8 +565,9 @@ claude mcp add hackmd -e HACKMD_API_TOKEN="%HACKMD_API_TOKEN%" -- npx -y hackmd-
   "mcp": {
     "hackmd": {
       "type": "local",
-      "command": ["npx", "-y", "hackmd-mcp"],
-      "env": {
+      "command": "npx",
+      "args": ["-y", "hackmd-mcp"],
+      "environment": {
         "HACKMD_API_TOKEN": "${HACKMD_API_TOKEN}"
       },
       "enabled": true
@@ -766,6 +774,7 @@ Agent 類型：Claude Code / AntiGravity / Codex / OpenCode / Hermes Agent
 
 | 日期 | 版本 | 內容 |
 |------|------|------|
+| 2026-06-10 | v1.6 | 修正所有 Claude Code MCP 語法（-e → --env，選項移至名稱前）；修正 OpenCode JSON 格式（command 改字串、args 獨立、env → environment） |
 | 2026-06-10 | v1.5 | 新增 HackMD（Step 11），含資安說明、三種 Agent 設定、常見問題 |
 | 2026-06-08 | v1.4 | 新增 Hermes Agent 支援（Step 0 偵測、每個 Step 的 YAML 設定、附錄規則檔說明） |
 | 2026-06-08 | v1.3 | 步驟重新編號為 Step 0-10，Step 0 合併偵測+環境，規則檔和開工收工改為附錄，修正 Gmail scope 說明，新增資安維護章節 |
