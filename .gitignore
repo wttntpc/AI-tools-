@@ -47,6 +47,8 @@ gh-token*
 api_keys.*
 gemini.env
 notion.env
+hackmd.env
+.hackmd-token
 
 # IDEs and editors
 .vscode/

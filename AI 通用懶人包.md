@@ -1,10 +1,10 @@
-# 通用 AI 工具連接懶人包 v1.4
+# 通用 AI 工具連接懶人包 v1.5
 
 > 適用：Claude Code、AntiGravity、Codex（OpenAI）、OpenCode、Hermes Agent
-> 更新日期：2026-06-08
+> 更新日期：2026-06-10
 > 語系偏好：繁體中文（Taiwan）
 
-這份懶人包讓任何支援 MCP 或工具呼叫的 AI Agent，都能用同一份流程完成 NotebookLM、GitHub、Gemini、Obsidian、Notion、Firebase、Google Calendar、Gmail、Google Drive、Zotero 的連接與開工收工工作流程設定。
+這份懶人包讓任何支援 MCP 或工具呼叫的 AI Agent，都能用同一份流程完成 NotebookLM、GitHub、Gemini、Obsidian、Notion、Firebase、Google Calendar、Gmail、Google Drive、Zotero、HackMD 的連接與開工收工工作流程設定。
 
 ---
 
@@ -515,6 +515,78 @@ mcp_servers:
 
 ---
 
+## Step 11：連接 HackMD（選用）
+
+> HackMD 是 Markdown 協作筆記平台，透過官方 API 讓 AI 直接讀寫你的筆記。
+> ⚠️ 資安：API token 只存入系統環境變數，不貼在對話中、不寫進 repo。
+
+### 1. 取得 HackMD API Token（需自己操作）
+
+1. 登入 [HackMD](https://hackmd.io) → 右上角頭像 → **Settings**
+2. 左側選 **API** → **Create API Token**
+3. 名稱填 `AI-MCP`，勾選 ✅ Read + ✅ Write
+4. 複製 token（**只出現一次，請妥善保存**）
+
+> ⚠️ 安全提醒：不要把 token 貼在 AI 對話視窗，直接自己在終端機輸入。
+
+### 2. 儲存 Token 為環境變數（自己在終端機輸入）
+
+```powershell
+# Windows
+setx HACKMD_API_TOKEN "你的token"
+```
+
+```bash
+# macOS
+echo 'export HACKMD_API_TOKEN="你的token"' >> ~/.zshrc
+source ~/.zshrc
+# Linux
+echo 'export HACKMD_API_TOKEN="你的token"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+### 3. 依 Agent 類型註冊 MCP
+
+**Claude Code：**
+```bash
+claude mcp add hackmd -e HACKMD_API_TOKEN="%HACKMD_API_TOKEN%" -- npx -y hackmd-mcp
+```
+
+**AntiGravity / Codex / OpenCode（opencode.json）：**
+```json
+{
+  "mcp": {
+    "hackmd": {
+      "type": "local",
+      "command": ["npx", "-y", "hackmd-mcp"],
+      "env": {
+        "HACKMD_API_TOKEN": "${HACKMD_API_TOKEN}"
+      },
+      "enabled": true
+    }
+  }
+}
+```
+
+**Hermes Agent（~/.hermes/config.yaml）：**
+```yaml
+mcp_servers:
+  hackmd:
+    command: npx  # Windows 請改為 npx.cmd
+    args: ["-y", "hackmd-mcp"]
+    env:
+      HACKMD_API_TOKEN: "${HACKMD_API_TOKEN}"
+    enabled: true
+```
+
+### 4. 驗證
+
+重啟 Agent 後，請 AI：「列出我 HackMD 最近的筆記」
+
+`.gitignore` 已包含：`hackmd.env`
+
+---
+
 ## Step 10：連接 Zotero（選用）
 
 > 使用本機 API（localhost:23119），不需要 API Key，資料完全不離開本機。
@@ -568,6 +640,7 @@ GitHub repo：
 - Gmail：已連接 / 未使用
 - Google Drive：已連接 / 未使用
 - Zotero：已連接 / 未使用
+- HackMD：已連接 / 未使用
 
 ## 工作規則
 - 回應使用繁體中文
@@ -626,6 +699,7 @@ Agent 類型：Claude Code / AntiGravity / Codex / OpenCode / Hermes Agent
 - Gmail：✅ 已連接 / ⏭️ 跳過 / ❌ 失敗
 - Google Drive：✅ 已連接 / ⏭️ 跳過 / ❌ 失敗
 - Zotero：✅ 已連接 / ⏭️ 跳過 / ❌ 失敗
+- HackMD：✅ 已連接 / ⏭️ 跳過 / ❌ 失敗
 - 規則檔：✅ 已建立 (CLAUDE.md) / ⚠️ 待建立
 
 下一步：
@@ -652,6 +726,9 @@ Agent 類型：Claude Code / AntiGravity / Codex / OpenCode / Hermes Agent
 | Zotero 連線失敗 | 確認 Zotero 桌面程式已開啟，且已勾選本機 API 選項 |
 | Hermes MCP 工具沒出現 | 確認 `~/.hermes/config.yaml` 格式正確（YAML 縮排敏感），重啟 Hermes |
 | Hermes 規則檔沒被讀取 | 優先建立 `.hermes.md`，或確認 `AGENTS.md` 在專案根目錄 |
+| HackMD MCP 連線失敗 | 確認 `HACKMD_API_TOKEN` 環境變數已設定，重開終端機後再試 |
+| HackMD token 無效 | 到 HackMD Settings → API 重新產生 token，勾選 Read + Write 權限 |
+| HackMD token 洩漏 | 立即到 HackMD Settings → API 撤銷舊 token，重新建立新 token |
 
 ---
 
@@ -669,6 +746,7 @@ Agent 類型：Claude Code / AntiGravity / Codex / OpenCode / Hermes Agent
 
 | 日期 | 版本 | 內容 |
 |------|------|------|
+| 2026-06-10 | v1.5 | 新增 HackMD（Step 11），含資安說明、三種 Agent 設定、常見問題 |
 | 2026-06-08 | v1.4 | 新增 Hermes Agent 支援（Step 0 偵測、每個 Step 的 YAML 設定、附錄規則檔說明） |
 | 2026-06-08 | v1.3 | 步驟重新編號為 Step 0-10，Step 0 合併偵測+環境，規則檔和開工收工改為附錄，修正 Gmail scope 說明，新增資安維護章節 |
 | 2026-06-08 | v1.2 | 新增 Google Calendar、Gmail、Google Drive、Zotero，步驟重新編號 |
