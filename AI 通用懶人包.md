@@ -734,11 +734,31 @@ Agent 類型：Claude Code / AntiGravity / Codex / OpenCode / Hermes Agent
 
 ## 資安維護（每季執行）
 
+### Google 服務
 前往 👉 https://myaccount.google.com/permissions
 
 確認「有權存取帳戶的任何 Google 服務」清單中：
 - ✅ 只有你認識的應用程式
 - ❌ 不認識的應用程式 → 立即點擊「刪除連結」撤銷授權
+
+### HackMD
+前往 👉 https://hackmd.io/settings#api
+
+- 確認只有你建立的 token，刪除不認識或過期的 token
+- 建議每季輪換一次 token
+
+### GitHub
+前往 👉 https://github.com/settings/tokens
+
+- 確認 token 都有設定到期日
+- 刪除不再使用的 token
+
+### 🚨 Token 洩漏緊急處理
+> 若 token 不小心貼到對話或上傳到 repo，請立即：
+> 1. 到對應平台**撤銷（Revoke）** 舊 token
+> 2. **重新建立**新 token 並更新環境變數
+> 3. 執行 `git log -p | grep -i token` 確認 repo 無殘留
+> 4. 若已 push 敏感資料，聯絡平台客服並考慮使用 `git filter-branch` 清除歷史
 
 ---
 

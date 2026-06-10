@@ -14,9 +14,15 @@ Desktop.ini
 .env
 .env.*
 *.key
+*.pem
+*.p12
 credentials.*
 secrets.*
 service-account*.json
+auth.json
+oauth.json
+*token*.json
+*secret*.json
 
 # Google OAuth 憑證（Calendar / Gmail / Google Drive）
 client_secret*.json
@@ -42,13 +48,15 @@ zotero_export.*
 .github-token
 gh-token*
 
-# API Keys
+# API Keys（各服務）
 *.apikey
 api_keys.*
 gemini.env
 notion.env
 hackmd.env
 .hackmd-token
+opencode.json
+.claude.json
 
 # IDEs and editors
 .vscode/

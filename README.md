@@ -51,7 +51,7 @@
 
 | 檔案 | 說明 |
 |------|------|
-| `AI 通用懶人包.md` | 主要懶人包，包含完整安裝流程（Step 0–10，附錄 A–B） |
+| `AI 通用懶人包.md` | 主要懶人包，包含完整安裝流程（Step 0–11，附錄 A–B） |
 | `SKILL.md` | AI Agent 自動讀取的安裝入口 |
 | `.gitignore` | 排除 API key、token、個人資料等敏感檔案 |
 
@@ -59,10 +59,28 @@
 
 ## 安全原則
 
-- 所有登入走瀏覽器 OAuth，不複製 cookie 或 token
-- API key 存入系統環境變數，不寫進 repo
+### 🔑 Token / API Key 保護
+- **絕對不把 token 貼在 AI 對話視窗**（對話紀錄可能被存取）
+- API key 與 token 只存入系統環境變數，不寫進任何檔案或 repo
+- 所有 Google 服務登入走瀏覽器 OAuth，不複製 cookie 或 token
+
+### 📁 檔案安全
 - 不 commit 個人 NotebookLM 清單、筆記本 ID、研究報告
-- 收工前先檢查 diff，只提交本次相關檔案
+- 收工前先執行 `git diff`，確認沒有敏感資料才 push
+- 只 stage 本次相關檔案，不使用 `git add .`
+
+### ⚠️ 最小權限原則
+- Google 服務只授予需要的最小 scope（如 `drive.readonly`）
+- HackMD token 只授予 Read + Write，不授予 Admin 權限
+- 定期到 https://myaccount.google.com/permissions 確認授權應用程式
+
+### 🚨 Token 洩漏緊急處理
+1. **立即撤銷**：到對應平台刪除洩漏的 token
+   - HackMD：Settings → API → Delete token
+   - Google：console.cloud.google.com → Credentials → 刪除 OAuth client
+   - GitHub：Settings → Developer settings → Tokens → Revoke
+2. **重新建立**新 token 並更新環境變數
+3. 確認相關 repo 沒有殘留敏感資料（`git log` 搜尋確認）
 
 ---
 
