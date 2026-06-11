@@ -3,69 +3,42 @@ name: ai-tools-google-calendar
 description: 連接 Google Calendar MCP — 讓 AI 讀取、建立、修改行事曆事件。適用 Claude Code、AntiGravity、Codex、OpenCode、Hermes Agent。說「連接 Google Calendar」「設定行事曆」時載入。
 ---
 
-# 連接 Google Calendar（通用版）
+# 連接 Google Calendar（通用版）v2.0
 
 > Google Calendar、Gmail、Google Drive 共用同一組 Google Cloud OAuth 憑證。
-> 若已完成 08-gmail 或 09-google-drive 的授權，可直接跳到步驟 3。
-
----
-
-## 資安原則（必讀）
-
-| 規則 | 說明 |
-|------|------|
-| 憑證不入 repo | `client_secret*.json`、`token*.json` 絕對不 commit |
-| 最小權限 | OAuth 同意畫面只勾選 Calendar 所需範圍，不授予多餘權限 |
-| 環境變數 | 憑證路徑存入系統環境變數，不寫進 Markdown |
-| 定期檢查 | 每季到 https://myaccount.google.com/permissions 確認授權應用程式 |
-| 撤銷方式 | 如懷疑洩漏，立即到 Google Cloud Console 刪除 OAuth client |
-
-`.gitignore` 請加入：
-```
-client_secret*.json
-token*.json
-*.credentials.json
-```
-
----
+> 若已完成 08-gmail 或 09-google-drive 的授權，可直接跳到步驟 2。
 
 ## 步驟
 
-### 1. 建立 Google Cloud OAuth 憑證（首次設定）
+### 1. 使用者在 Google Cloud Console 建立憑證（一次性）
 
-1. 前往 https://console.cloud.google.com → 建立或選擇專案（例如 `AI-MCP`）
-2. **APIs & Services → Library** → 搜尋並啟用 `Google Calendar API`
-3. **APIs & Services → OAuth consent screen**
-   - User Type：**External**（個人帳號選此項）
-   - 填入 App name（例如 `AI-MCP`）和你的 Email
-   - Scopes：只加 `calendar.readonly`（唯讀）或 `calendar`（可寫入）
-   - Test users：加入你自己的 Gmail
-4. **APIs & Services → Credentials → Create Credentials → OAuth client ID**
-   - Application type：**Desktop app**
-   - 名稱：`AI-MCP-Calendar`
-5. 下載 `client_secret_xxx.json`，存到安全位置（建議 `C:\Users\你\.google\`）
+AI 引導使用者：
 
-### 2. 儲存憑證路徑為環境變數
+1. 前往 https://console.cloud.google.com → 建立或選擇專案（例如 AI-MCP）
+2. APIs & Services → Library → 啟用 Google Calendar API
+3. OAuth consent screen → External → 填入 App name、Email → Scopes 只加 calendar.readonly，Test users 加入自己 Gmail
+4. Credentials → Create Credentials → OAuth client ID → Desktop app → 下載憑證檔
 
+AI 問：「請告訴我你把憑證檔案存在哪裡（完整路徑），我幫你完成後續設定。」
+
+### 2. AI 直接設定環境變數
+
+**Windows：**
 ```powershell
-# Windows
-setx GOOGLE_CALENDAR_CREDENTIALS "C:\Users\你\.google\client_secret_xxx.json"
+setx GOOGLE_CALENDAR_CREDENTIALS "使用者提供的路徑"
 ```
 
+**macOS：**
 ```bash
-# macOS
-echo 'export GOOGLE_CALENDAR_CREDENTIALS="$HOME/.google/client_secret_xxx.json"' >> ~/.zshrc
+echo 'export GOOGLE_CALENDAR_CREDENTIALS="使用者提供的路徑"' >> ~/.zshrc
 source ~/.zshrc
-# Linux
-echo 'export GOOGLE_CALENDAR_CREDENTIALS="$HOME/.google/client_secret_xxx.json"' >> ~/.bashrc
-source ~/.bashrc
 ```
 
-### 3. 依 Agent 類型註冊 MCP
+### 3. AI 依 Agent 類型執行 MCP 註冊
 
 **Claude Code：**
 ```bash
-claude mcp add google-calendar -e GOOGLE_CALENDAR_CREDENTIALS="$GOOGLE_CALENDAR_CREDENTIALS" -- npx -y @modelcontextprotocol/server-google-calendar
+claude mcp add --env GOOGLE_CALENDAR_CREDENTIALS="使用者提供的路徑" google-calendar -- npx -y @modelcontextprotocol/server-google-calendar
 ```
 
 **AntiGravity / Codex / OpenCode（opencode.json）：**
@@ -74,8 +47,9 @@ claude mcp add google-calendar -e GOOGLE_CALENDAR_CREDENTIALS="$GOOGLE_CALENDAR_
   "mcp": {
     "google-calendar": {
       "type": "local",
-      "command": ["npx", "-y", "@modelcontextprotocol/server-google-calendar"],
-      "env": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-google-calendar"],
+      "environment": {
         "GOOGLE_CALENDAR_CREDENTIALS": "${GOOGLE_CALENDAR_CREDENTIALS}"
       },
       "enabled": true
@@ -84,7 +58,7 @@ claude mcp add google-calendar -e GOOGLE_CALENDAR_CREDENTIALS="$GOOGLE_CALENDAR_
 }
 ```
 
-**Hermes Agent（~/.hermes/config.yaml）：**
+**Hermes Agent (~/.hermes/config.yaml)：**
 ```yaml
 mcp_servers:
   google-calendar:
@@ -95,26 +69,12 @@ mcp_servers:
     enabled: true
 ```
 
-### 4. 首次授權（OAuth token 交換）
+AI 同時在 .gitignore 加入：client_secret*.json、token*.json
 
-首次執行 MCP 時，套件會自動開啟瀏覽器進行授權：
-1. 選擇正確的 Google 帳號
-2. 允許存取 Calendar
-3. 授權完成後，token 會自動儲存（通常在 `~/.google/` 或套件預設路徑）
+### 4. 首次授權（瀏覽器 OAuth）
 
-> `client_secret_xxx.json` 只是 OAuth 用戶端金鑰，**不等於已授權**。首次必須完成瀏覽器授權流程才能正常使用。
+AI 告知使用者：「請重啟 Agent，首次使用時瀏覽器會自動開啟，請選正確帳號並允許存取 Calendar，完成後告訴我。」
 
 ### 5. 驗證
 
-重啟 Agent 後，請 AI：「列出我本週的 Google Calendar 事件」
-
----
-
-### 常用指令範例
-
-| 任務 | 對 AI 說 |
-|------|---------|
-| 查看行程 | 「列出我本週的行程」 |
-| 建立事件 | 「幫我在週三下午 2 點建立實驗室會議，持續 1 小時」 |
-| 查詢空檔 | 「我這週哪些時段沒有行程？」 |
-| 提醒研究時程 | 「列出所有標記為研究的行事曆事件」 |
+AI 列出本週 Google Calendar 事件確認連線成功。

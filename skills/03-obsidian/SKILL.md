@@ -3,48 +3,39 @@ name: ai-tools-obsidian
 description: 連接 Obsidian MCP (MCPVault) — 適用 Claude Code、AntiGravity、Codex、OpenCode、Hermes Agent。說「連接 Obsidian」「設定 Obsidian」時載入。
 ---
 
-# 連接 Obsidian（通用版）
+# 連接 Obsidian（通用版）v2.0
 
 ## 步驟
 
-### 1. 確認 vault 路徑並設為環境變數
+### 1. AI 詢問 vault 路徑
 
-請先找到 Obsidian vault 的實體路徑（內含 `.obsidian` 資料夾）。常見位置：
-- `C:\Users\<你>\OneDrive\文件\Secondbrain`
-- `C:\Users\<你>\Documents\<vault 名稱>`
-- `G:\我的雲端硬碟\<vault 名稱>`
+AI 問：「請提供你的 Obsidian vault 路徑（含 .obsidian 資料夾的那層），我幫你設定。」
 
-**存為環境變數（跨平台通用）：**
+若使用者不確定，AI 執行搜尋（Windows）：
 ```powershell
-# Windows
-setx OBSIDIAN_VAULT_PATH "C:\Users\你\OneDrive\文件\Secondbrain"
+Get-ChildItem C:\Users -Recurse -Filter ".obsidian" -Directory 2>$null | Select-Object -First 5 FullName
 ```
+
+### 2. AI 直接安裝並設定環境變數
+
+**Windows：**
+```powershell
+npm.cmd install -g @bitbonsai/mcpvault
+setx OBSIDIAN_VAULT_PATH "使用者提供的路徑"
+```
+
+**macOS / Linux：**
 ```bash
-# macOS / Linux
-echo 'export OBSIDIAN_VAULT_PATH="$HOME/Documents/Secondbrain"' >> ~/.zshrc
+npm install -g @bitbonsai/mcpvault
+echo 'export OBSIDIAN_VAULT_PATH="使用者提供的路徑"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
-> ⚠️ 請勿將 vault 實體路徑或敏感筆記內容 commit 到公開 repo。
-
-### 2. 安裝 MCPVault
-```powershell
-# Windows
-npm.cmd install -g @bitbonsai/mcpvault
-where.exe mcpvault
-```
-```bash
-# macOS / Linux
-npm install -g @bitbonsai/mcpvault
-which mcpvault
-```
-常見路徑（Windows）：`C:\Users\<你>\AppData\Roaming\npm\mcpvault.cmd`
-
-### 3. 依 Agent 類型註冊 MCP
+### 3. AI 依 Agent 類型執行 MCP 註冊
 
 **Claude Code：**
 ```bash
-claude mcp add obsidian -e OBSIDIAN_VAULT_PATH="$OBSIDIAN_VAULT_PATH" -- mcpvault "$OBSIDIAN_VAULT_PATH"
+claude mcp add --env OBSIDIAN_VAULT_PATH="使用者提供的路徑" obsidian -- mcpvault "使用者提供的路徑"
 ```
 
 **AntiGravity / Codex / OpenCode（opencode.json）：**
@@ -53,8 +44,9 @@ claude mcp add obsidian -e OBSIDIAN_VAULT_PATH="$OBSIDIAN_VAULT_PATH" -- mcpvaul
   "mcp": {
     "obsidian": {
       "type": "local",
-      "command": ["mcpvault", "${OBSIDIAN_VAULT_PATH}"],
-      "env": {
+      "command": "mcpvault",
+      "args": ["${OBSIDIAN_VAULT_PATH}"],
+      "environment": {
         "OBSIDIAN_VAULT_PATH": "${OBSIDIAN_VAULT_PATH}"
       },
       "enabled": true
@@ -63,7 +55,7 @@ claude mcp add obsidian -e OBSIDIAN_VAULT_PATH="$OBSIDIAN_VAULT_PATH" -- mcpvaul
 }
 ```
 
-**Hermes Agent（~/.hermes/config.yaml）：**
+**Hermes Agent (~/.hermes/config.yaml)：**
 ```yaml
 mcp_servers:
   obsidian:
@@ -75,4 +67,5 @@ mcp_servers:
 ```
 
 ### 4. 驗證
-重啟 Agent 後，請 AI：「讀取 Obsidian vault 根目錄」，再測試建立並讀回一篇測試筆記。
+
+AI 告知使用者：「請重啟 Agent，完成後告訴我，我來驗證連線。」

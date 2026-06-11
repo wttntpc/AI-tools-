@@ -17,6 +17,7 @@ description: 一次安裝所有通用 AI 工具懶人包技能。說「全部安
 8. **08-gmail** — 連接 Gmail
 9. **09-google-drive** — 連接 Google Drive
 10. **10-zotero** — 連接 Zotero 文獻庫
+11. **11-hackmd** — 連接 HackMD
 
 每完成一個報告進度，最終回報總表。
 已安裝的工具自動跳過。

@@ -3,69 +3,40 @@ name: ai-tools-hackmd
 description: 連接 HackMD MCP — 讓 AI 直接讀取、建立、編輯 HackMD 筆記與共筆。適用 Claude Code、AntiGravity、Codex、OpenCode、Hermes Agent。說「連接 HackMD」「讀取 HackMD 筆記」時載入。
 ---
 
-# 連接 HackMD（通用版）
-
-> HackMD 是 Markdown 協作筆記平台，透過官方 API 讓 AI 直接讀寫你的筆記。
-
----
-
-## 資安原則
-
-| 規則 | 說明 |
-|------|------|
-| API token 不入 repo | `HACKMD_API_TOKEN` 只存入系統環境變數 |
-| 最小權限 | 只授予需要的讀寫範圍 |
-| 不 commit 筆記內容 | 個人筆記、研究內容不上傳 repo |
-
-`.gitignore` 已包含：
-```
-hackmd.env
-```
-
----
+# 連接 HackMD（通用版）v2.0
 
 ## 步驟
 
-### 1. 取得 HackMD API Token（需自己操作）
+### 1. 使用者取得 API Token（一次性）
 
-> ⚠️ 此步驟需在瀏覽器手動完成，AI 無法代為操作。
+AI 引導使用者：
 
-1. 登入 [HackMD](https://hackmd.io)
-2. 點右上角頭像 → **Settings**
-3. 左側選 **API** → **Create API Token**
-4. 填入名稱（例如 `AI-MCP`），選擇權限：
-   - ✅ `Read` — 讀取筆記
-   - ✅ `Write` — 建立 / 編輯筆記
-5. 複製產生的 token（只出現一次）
+> 「請前往 HackMD → 右上角頭像 → Settings → API → Create API Token → 名稱填 AI-MCP，勾選 Read + Write → 複製 token（只出現一次），貼給我。」
 
-完成後告知 AI 繼續。
+### 2. AI 取得 Token 後直接設定環境變數
 
----
-
-### 2. 儲存 Token 為環境變數
-
+**Windows：**
 ```powershell
-# Windows
-setx HACKMD_API_TOKEN "你的token"
+setx HACKMD_API_TOKEN "使用者提供的token"
 ```
 
+**macOS：**
 ```bash
-# macOS
-echo 'export HACKMD_API_TOKEN="你的token"' >> ~/.zshrc
+echo 'export HACKMD_API_TOKEN="使用者提供的token"' >> ~/.zshrc
 source ~/.zshrc
+```
 
-# Linux
-echo 'export HACKMD_API_TOKEN="你的token"' >> ~/.bashrc
+**Linux：**
+```bash
+echo 'export HACKMD_API_TOKEN="使用者提供的token"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
----
-
-### 3. 依 Agent 類型註冊 MCP
+### 3. AI 依 Agent 類型執行 MCP 註冊
 
 **Claude Code：**
 ```bash
-claude mcp add --env HACKMD_API_TOKEN="$HACKMD_API_TOKEN" hackmd -- npx -y hackmd-mcp
+claude mcp add -e HACKMD_API_TOKEN="使用者提供的token" hackmd -- npx -y hackmd-mcp
 ```
 
 **AntiGravity / Codex / OpenCode（opencode.json）：**
@@ -85,31 +56,22 @@ claude mcp add --env HACKMD_API_TOKEN="$HACKMD_API_TOKEN" hackmd -- npx -y hackm
 }
 ```
 
-**Hermes Agent（~/.hermes/config.yaml）：**
+**Hermes Agent (~/.hermes/config.yaml)：**
 ```yaml
 mcp_servers:
   hackmd:
-    command: npx  # Windows 請改為 npx.cmd
+    command: npx
     args: ["-y", "hackmd-mcp"]
     env:
       HACKMD_API_TOKEN: "${HACKMD_API_TOKEN}"
     enabled: true
 ```
 
----
-
 ### 4. 驗證
 
-重啟 Agent 後，請 AI：「列出我 HackMD 最近的筆記」
+AI 告知使用者：「請重啟 Agent，完成後告訴我，我列出你的 HackMD 筆記確認連線。」
 
----
+## 資安
 
-## 常用指令範例
-
-| 任務 | 對 AI 說 |
-|------|---------|
-| 列出筆記 | 「列出我 HackMD 最近的筆記」 |
-| 讀取筆記 | 「讀取 HackMD 筆記『研究計畫』並整理大綱」 |
-| 建立筆記 | 「在 HackMD 建立一篇新筆記，標題為『EEG 分析結果』」 |
-| 編輯筆記 | 「更新 HackMD 筆記，加入今天的分析結果」 |
-| 共筆連結 | 「產生這篇 HackMD 筆記的分享連結」 |
+- API token 由 AI 存入環境變數，不寫進 repo
+- Token 洩漏：立即到 HackMD Settings → API 撤銷，重新建立後貼給 AI

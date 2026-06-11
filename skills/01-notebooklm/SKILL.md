@@ -3,41 +3,43 @@ name: ai-tools-notebooklm
 description: 連接 NotebookLM MCP — 適用 Claude Code、AntiGravity、Codex、OpenCode、Hermes Agent。說「連接 NotebookLM」「設定 NotebookLM」時載入。
 ---
 
-# 連接 NotebookLM（通用版）
+# 連接 NotebookLM（通用版）v2.0
 
 ## 步驟
 
-### 1. 安裝
-```powershell
-# Windows / macOS / Linux
+### 1. AI 直接執行安裝
+
+```bash
 uv tool install notebooklm-mcp-cli
 nlm --version
 ```
 
-### 2. 登入（瀏覽器 OAuth）
-```powershell
-nlm login
-```
-瀏覽器開啟後，請選正確的 Google 帳號完成授權。
+### 2. 瀏覽器 OAuth（使用者操作）
 
-若登入到錯誤帳號：
-```powershell
-nlm logout
+AI 執行後告知使用者：「瀏覽器會自動開啟，請選擇正確的 Google 帳號完成授權，完成後告訴我。」
+
+```bash
 nlm login
 ```
 
-### 3. 驗證
-```powershell
+授權完成後 AI 執行驗證：
+```bash
 nlm doctor
-nlm list
 ```
-若 Windows 顯示 CP950 編碼錯誤：
+
+若 Windows 顯示 CP950 編碼錯誤，AI 先執行：
 ```powershell
 $env:PYTHONIOENCODING = "utf-8"
 nlm doctor
 ```
 
-### 4. 依 Agent 類型註冊 MCP
+若登入到錯誤帳號，AI 執行：
+```bash
+nlm logout
+nlm login
+```
+
+### 3. AI 依 Agent 類型執行 MCP 註冊
 
 **Claude Code：**
 ```bash
@@ -50,14 +52,15 @@ claude mcp add notebooklm -- nlm mcp
   "mcp": {
     "notebooklm": {
       "type": "local",
-      "command": ["nlm", "mcp"],
+      "command": "nlm",
+      "args": ["mcp"],
       "enabled": true
     }
   }
 }
 ```
 
-**Hermes Agent（~/.hermes/config.yaml）：**
+**Hermes Agent (~/.hermes/config.yaml)：**
 ```yaml
 mcp_servers:
   notebooklm:
@@ -66,7 +69,6 @@ mcp_servers:
     enabled: true
 ```
 
-### 5. 驗證連線
-重啟 Agent 後，請 AI：「列出我的 NotebookLM 筆記本」
+### 4. 驗證
 
-⚠️ 不要複製 cookie/token，不把筆記本清單 commit 到 repo。
+AI 告知使用者：「請重啟 Agent，完成後告訴我。」重啟後 AI 列出 NotebookLM 筆記本確認連線成功。

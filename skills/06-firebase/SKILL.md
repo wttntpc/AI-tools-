@@ -3,27 +3,49 @@ name: ai-tools-firebase
 description: 連接 Firebase MCP — 適用 Claude Code、AntiGravity、Codex、OpenCode、Hermes Agent。說「連接 Firebase」「設定 Firebase」時載入。
 ---
 
-# 連接 Firebase（通用版）
+# 連接 Firebase（通用版）v2.0
 
 ## 步驟
 
-### 1. 安裝與登入
+### 1. AI 先執行版本檢查
+
+**Windows：**
 ```powershell
-# Windows（使用 npx.cmd 避免 PowerShell 執行原則問題）
 npx.cmd -y firebase-tools@latest --version
+```
+
+**macOS / Linux：**
+```bash
+npx -y firebase-tools@latest --version
+```
+
+### 2. 瀏覽器 OAuth（使用者操作）
+
+AI 告知使用者：「我要執行 Firebase 登入，瀏覽器會自動開啟，請完成 Google 授權後告訴我。」
+
+**Windows：**
+```powershell
 npx.cmd -y firebase-tools@latest login
+```
+
+**macOS / Linux：**
+```bash
+npx -y firebase-tools@latest login
+```
+
+### 3. AI 驗證登入
+
+**Windows：**
+```powershell
 npx.cmd -y firebase-tools@latest projects:list
 ```
+
+**macOS / Linux：**
 ```bash
-# macOS / Linux
-npx -y firebase-tools@latest --version
-npx -y firebase-tools@latest login
 npx -y firebase-tools@latest projects:list
 ```
 
-> `firebase login` 需要瀏覽器互動授權。若在 AI 對話中卡住，請開獨立終端機視窗手動執行登入，再回來讓 AI 驗證。
-
-### 2. 依 Agent 類型註冊 MCP
+### 4. AI 依 Agent 類型執行 MCP 註冊
 
 **Claude Code：**
 ```bash
@@ -36,25 +58,23 @@ claude mcp add firebase -- npx -y firebase-tools@latest mcp
   "mcp": {
     "firebase": {
       "type": "local",
-      "command": ["npx.cmd", "-y", "firebase-tools@latest", "mcp"],
+      "command": "npx",
+      "args": ["-y", "firebase-tools@latest", "mcp"],
       "enabled": true
     }
   }
 }
 ```
 
-**Hermes Agent（~/.hermes/config.yaml）：**
+**Hermes Agent (~/.hermes/config.yaml)：**
 ```yaml
 mcp_servers:
   firebase:
-    command: npx        # Windows 請改為 npx.cmd
+    command: npx
     args: ["-y", "firebase-tools@latest", "mcp"]
     enabled: true
 ```
 
-### 3. 驗證
-重啟 Agent 後，請 AI：「列出我的 Firebase 專案」
+### 5. 驗證
 
-⚠️ 安全規則：
-- Firebase Admin SDK 憑證絕對不可公開
-- `.firebaserc` 若含私人專案 ID，公開前請確認是否適合
+AI 告知使用者：「請重啟 Agent，完成後告訴我，我列出你的 Firebase 專案確認連線。」
